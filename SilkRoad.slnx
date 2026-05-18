@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SilkRoad.API/SilkRoad.API.csproj" />
+    <Project Path="src/SilkRoad.Core/SilkRoad.Core.csproj" />
+    <Project Path="src/SilkRoad.Infrastructure/SilkRoad.Infrastructure.csproj" />
+  </Folder>
+</Solution>

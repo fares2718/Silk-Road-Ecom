@@ -1,0 +1,6 @@
+@SilkRoad.API_HostAddress = http://localhost:5221
+
+GET {{SilkRoad.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
