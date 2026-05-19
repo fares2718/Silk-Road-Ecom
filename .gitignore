@@ -481,4 +481,4 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
-appsettings.Development.json
+src/SilkRoad.API/appsettings.Development.json
