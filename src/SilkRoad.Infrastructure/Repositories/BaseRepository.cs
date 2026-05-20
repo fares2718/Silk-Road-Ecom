@@ -69,9 +69,12 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : class
     .ToListAsync();
     }
 
-    public async Task<IReadOnlyList<T>> GetAllAsync()
+    public async Task<IReadOnlyList<TDTO>> GetAllAsync<TDTO>(Expression<Func<T, TDTO>> selector) where TDTO : class
     {
-        return await _context.Set<T>().AsNoTracking().ToListAsync();
+        return await _context.Set<T>()
+            .AsNoTracking()
+            .Select(selector)
+            .ToListAsync();
     }
 
     /// <summary>
@@ -119,9 +122,10 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : class
             resultSelector
         ).SingleOrDefaultAsync();
     }
-    public async Task<T?> GetByIdAsync(int id)
+    public async Task<TDTO?> GetByIdAsync<TDTO>(int id, Expression<Func<T, TDTO>> selector) where TDTO : class
     {
-        return await _context.Set<T>().FindAsync(id);
+        string keyName = GetPrimaryKeyName();
+        return await _context.Set<T>().Where(e => EF.Property<int>(e, keyName) == id).Select(selector).SingleOrDefaultAsync();
     }
 
     public async Task UpdateAsync(T entity)

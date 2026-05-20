@@ -5,7 +5,7 @@ public record class AddCategoryDTO
     string? CategoryDescription
 );
 
-public record UpdateCategoryDTO
+public record CategoryDTO
 (
     int CategoryID,
     string CategoryName,
