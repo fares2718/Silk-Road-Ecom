@@ -8,7 +8,7 @@ namespace SilkRoad.API.Controllers
 {
     public class CategoryController : BaseController
     {
-        public CategoryController(IUnitOfWork uow, IMapper mapper) : base(uow, mapper){}
+        public CategoryController(IUnitOfWork uow, IMapper mapper) : base(uow, mapper) { }
 
         [HttpPost("add-category")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -58,14 +58,14 @@ namespace SilkRoad.API.Controllers
 
             return Ok(categories);
         }
-        
+
         [HttpGet("category/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCategoryById(int id)
         {
-            if(id <= 0)
+            if (id <= 0)
                 return BadRequest(new APIResponse(400));
             var category = await _uow.CategoryRepository.GetByIdAsync<CategoryDTO>(id, c => new CategoryDTO
             (
@@ -78,7 +78,7 @@ namespace SilkRoad.API.Controllers
 
             return Ok(category);
         }
-    
+
         [HttpPut("update-category")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -101,6 +101,7 @@ namespace SilkRoad.API.Controllers
                 throw;
             }
         }
+
     }
 }
 
