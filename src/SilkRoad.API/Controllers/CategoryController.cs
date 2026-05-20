@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SilkRoad.Core;
 using SilkRoad.Core.Entities;
+using SilkRoad.API;
 
 namespace SilkRoad.API.Controllers
 {
@@ -28,15 +29,16 @@ namespace SilkRoad.API.Controllers
         public async Task<IActionResult> DeleteCategory(int id)
         {
             if (id <= 0)
-                return BadRequest("Invalid category ID.");
+                return BadRequest(new APIResponse(400));
             try
             {
                 await _uow.CategoryRepository.DeleteAsync(id);
-                return Ok("Category deleted successfully.");
+                return Ok(new APIResponse(200));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return NotFound($"Category not found: {ex.InnerException?.Message}");
+                return NotFound(new APIResponse(404));
+                throw;
             }
         }
 
@@ -52,11 +54,11 @@ namespace SilkRoad.API.Controllers
                 c.CategoryDescription
             ));
             if (categories is null || !categories.Any())
-                return NotFound("No categories found.");
+                return NotFound(new APIResponse(404));
 
             return Ok(categories);
         }
-
+        
         [HttpGet("category/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -64,7 +66,7 @@ namespace SilkRoad.API.Controllers
         public async Task<IActionResult> GetCategoryById(int id)
         {
             if(id <= 0)
-                return BadRequest("Invalid category ID.");
+                return BadRequest(new APIResponse(400));
             var category = await _uow.CategoryRepository.GetByIdAsync<CategoryDTO>(id, c => new CategoryDTO
             (
                 c.CategoryID,
@@ -72,7 +74,7 @@ namespace SilkRoad.API.Controllers
                 c.CategoryDescription
             ));
             if (category is null)
-                return NotFound("Category not found.");
+                return NotFound(new APIResponse(404));
 
             return Ok(category);
         }
@@ -84,18 +86,19 @@ namespace SilkRoad.API.Controllers
         public async Task<IActionResult> UpdateCategory(CategoryDTO dto)
         {
             if (dto is null)
-                return BadRequest("Invalid category data.");
+                return BadRequest(new APIResponse(400));
             if (dto.CategoryID <= 0)
-                return BadRequest("Invalid category ID.");
+                return BadRequest(new APIResponse(400));
             Category category = _mapper.Map<Category>(dto);
             try
             {
                 await _uow.CategoryRepository.UpdateAsync(category);
-                return Ok("Category updated successfully.");
+                return Ok(new APIResponse(200));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return NotFound($"Category not found: {ex.InnerException?.Message}");
+                return NotFound(new APIResponse(404));
+                throw;
             }
         }
     }
