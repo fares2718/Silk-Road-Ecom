@@ -33,15 +33,21 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : class
     /// </summary>
     /// <param name="includeProperties"></param>
     /// <returns>IReadOnlyList<T></returns>
-    public async Task<IReadOnlyList<T>> GetAllAndIncludeAsync(params Expression<Func<T, object>>[] includeProperties)
+    public async Task<IReadOnlyList<TDTO>> GetAllAndIncludeAsync<TKey, TDTO>(Expression<Func<T, TDTO>> selector,
+    Expression<Func<T, TKey>>? orderBy = null,
+    bool isDescending = false
+    ) where TDTO : class
     {
         var query = _context.Set<T>().AsNoTracking().AsQueryable();
 
-        foreach (var includeProperty in includeProperties)
+        if (orderBy != null)
         {
-            query = query.Include(includeProperty);
+            query = isDescending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
         }
-        return await query.ToListAsync();
+
+        return await query
+        .Select(selector)
+        .ToListAsync();
     }
 
     /// <summary>
@@ -83,17 +89,12 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : class
     /// <param name="id"></param>
     /// <param name="includeProperties"></param>
     /// <returns>T object</returns>
-    public async Task<T?> GetByIdAndIncludeAsync(int id, params Expression<Func<T, object>>[] includeProperties)
+    public async Task<TDTO?> GetByIdAndIncludeAsync<TDTO>(int id,Expression<Func<T, TDTO>> selector) where TDTO : class
     {
         string keyName = GetPrimaryKeyName();
         var query = _context.Set<T>().AsNoTracking().AsQueryable().Where(e => EF.Property<int>(e, keyName) == id);
 
-        foreach (var includeProperty in includeProperties)
-        {
-            query = query.Include(includeProperty);
-        }
-
-        return await query.SingleOrDefaultAsync();
+        return await query.Select(selector).SingleOrDefaultAsync();
     }
 
     /// <summary>
@@ -130,8 +131,28 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : class
 
     public async Task UpdateAsync(T entity)
     {
-        _context.Entry(entity).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        string keyName = GetPrimaryKeyName();
+        T? existingEntity = await _context.Set<T>()
+        .FirstOrDefaultAsync(e => EF.Property<int>(e, keyName) 
+        == EF.Property<int>(entity, keyName));
+        if(existingEntity == null)
+        {
+            throw new InvalidOperationException($"Entity of type {typeof(T).Name} with the specified ID does not exist.");
+        }
+        var props = typeof(T).GetProperties().Where(p => p.Name != keyName);
+        foreach(var prop in props)
+        {
+            var newValue = prop.GetValue(entity);
+            if(newValue is null || (newValue is string str && string.IsNullOrEmpty(str)))
+                continue;
+            else
+                prop.SetValue(existingEntity, newValue);
+        }
+        int rowsAffected = await _context.SaveChangesAsync();
+        if(rowsAffected == 0)
+            throw new InvalidOperationException($"Failed to update entity of type {typeof(T).Name} with the specified ID.");
+        if(rowsAffected > 1)
+            throw new InvalidOperationException($"Unexpected number of rows affected ({rowsAffected}) when updating entity of type {typeof(T).Name} with the specified ID.");
     }
 
 
