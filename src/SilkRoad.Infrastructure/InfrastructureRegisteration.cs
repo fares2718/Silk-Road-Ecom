@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using SilkRoad.Core;
 using SilkRoad.Core.Services;
 
@@ -15,6 +16,8 @@ public static class InfrastructureRegisteration
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddSingleton<IImageManagementService, ImageManagementService>();
+        services.AddSingleton<IFileProvider>
+        (new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
         services.AddDbContext<AppDbContext>(options =>{
             options.UseSqlServer(configuration.GetConnectionString("SilkRoadCon"));

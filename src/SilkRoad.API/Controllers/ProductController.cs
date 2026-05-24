@@ -15,7 +15,7 @@ public class ProductController : BaseController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<IActionResult> AddProduct([FromBody] AddProductDTO productDTO)
+    public async Task<IActionResult> AddProduct([FromQuery]AddProductDTO productDTO)
     {
         if (productDTO is null)
             return BadRequest(new APIResponse(400));

@@ -8,6 +8,7 @@ public class ProductImagesConfiguration : IEntityTypeConfiguration<ProductImage>
 {
     public void Configure(EntityTypeBuilder<ProductImage> builder)
     {
+        builder.HasKey(pi => pi.ImageID);
         builder.Property(pi => pi.ImageURL)
             .IsRequired()
             .HasMaxLength(255);

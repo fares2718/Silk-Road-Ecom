@@ -482,3 +482,4 @@ $RECYCLE.BIN/
 *.swp
 
 src/SilkRoad.API/appsettings.Development.json
+src/SilkRoad.API/wwwroot/Images/*

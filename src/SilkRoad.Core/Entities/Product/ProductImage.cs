@@ -2,7 +2,7 @@
 
 public partial class ProductImage
 {
-    public int ProductImageID { get; set; }
+    public int ImageID { get; set; }
 
     public int ProductID { get; set; }
 

@@ -31,6 +31,8 @@ internal class ProductRepository : BaseRepository<Product>, IProductRepository
         .ToList();
         
         newProduct.ProductImages = productImages;
+
+        _context.Products.Add(newProduct);
         
         int rowsAffected = await _context.SaveChangesAsync();
         return rowsAffected > 0;
