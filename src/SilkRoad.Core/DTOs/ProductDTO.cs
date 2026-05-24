@@ -1,12 +1,15 @@
-﻿namespace SilkRoad.Core;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace SilkRoad.Core;
 
 public record AddProductDTO
 (
     string ProductName,
     string? Description,
     int CategoryID,
-    decimal Price,
-    IReadOnlyList<string> ImageURLs
+    decimal NewPrice,
+    decimal OldPrice,
+    IFormFileCollection ProductImages
 );
 
 public record ProductDTO
@@ -15,7 +18,8 @@ public record ProductDTO
     string ProductName,
     string? Description,
     string CategoryName,
-    decimal Price,
+    decimal NewPrice,
+    decimal OldPrice,
     IReadOnlyList<string> ImageURLs
 );
 

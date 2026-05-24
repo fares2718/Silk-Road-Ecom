@@ -19,7 +19,7 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : class
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int id)
+    public virtual async Task DeleteAsync(int id)
     {
         var entity = await _context.Set<T>().FindAsync(id);
         if (entity != null)

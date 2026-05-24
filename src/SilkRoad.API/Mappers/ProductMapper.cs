@@ -9,8 +9,8 @@ public class ProductMapper : Profile
     public ProductMapper()
     {
         CreateMap<AddProductDTO, Product>()
-        .ForMember(dest => dest.ProductImages,
-        opt => opt.MapFrom(src => src.ImageURLs.Select(url => new ProductImage { ImageURL = url }).ToList()));
+        .ForMember(dest => dest.ProductImages, opt => opt.Ignore())
+        .ReverseMap();
         
         CreateMap<Product, ProductDTO>()
         .ForMember(dest => dest.ImageURLs,

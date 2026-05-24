@@ -19,9 +19,10 @@ public class ProductController : BaseController
     {
         if (productDTO is null)
             return BadRequest(new APIResponse(400));
-        Product product = _mapper.Map<Product>(productDTO);
-        await _uow.ProductRepository.AddAsync(product);
-        return CreatedAtAction(nameof(GetProductById), new { id = product.ProductID }, new APIResponse(201));
+        if(!await _uow.ProductRepository.AddAsync(productDTO))
+            return BadRequest(new APIResponse(400));
+        else
+            return Created("", new APIResponse(201));
     }
 
     [HttpDelete("delete-product/{id}")]
@@ -56,7 +57,8 @@ public class ProductController : BaseController
             p.ProductName,
             p.Description,
             p.Category.CategoryName,
-            p.Price,
+            p.NewPrice,
+            p.OldPrice,
             p.ProductImages.Select(pi => pi.ImageURL).ToList()
         ),
         p => p.CategoryID);
@@ -80,7 +82,8 @@ public class ProductController : BaseController
             p.ProductName,
             p.Description,
             p.Category.CategoryName,
-            p.Price,
+            p.NewPrice,
+            p.OldPrice,
             p.ProductImages.Select(pi => pi.ImageURL).ToList()
         ));
 
