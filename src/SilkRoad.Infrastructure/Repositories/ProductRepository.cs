@@ -41,15 +41,14 @@ internal class ProductRepository : BaseRepository<Product>, IProductRepository
 
     public override async Task DeleteAsync(int id)
     {
-        Product? product = await _context.Products.FindAsync(id);
+        Product? product = await _context.Products
+        .Include(p => p.ProductImages)
+        .FirstOrDefaultAsync(p => p.ProductID == id);
         if (product is null)
             throw new KeyNotFoundException($"Product with ID {id} not found.");
 
         List<string> imageUrls = product.ProductImages.Select(pi => pi.ImageURL).ToList();
-        foreach (string url in imageUrls)
-        {
-            _imageManagementService.DeleteImagesAsync(url);
-        }
+        _imageManagementService.DeleteImagesAsync($"Images/{product.ProductName}");
 
         _context.Products.Remove(product);
         await _context.SaveChangesAsync();
@@ -68,10 +67,9 @@ internal class ProductRepository : BaseRepository<Product>, IProductRepository
         if(product.ProductImages is not null && product.ProductImages.Count > 0)
         {
             List<string> oldImageUrls = existingProduct.ProductImages.Select(pi => pi.ImageURL).ToList();
-            foreach (string url in oldImageUrls)
-            {
-                _imageManagementService.DeleteImagesAsync(url);
-            }
+            
+            _imageManagementService.DeleteImagesAsync($"Images/{existingProduct.ProductName}");
+            
             _context.ProductImages.RemoveRange(existingProduct.ProductImages);
 
             List<string> newImageUrls = await _imageManagementService
