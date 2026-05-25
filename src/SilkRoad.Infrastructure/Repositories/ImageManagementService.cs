@@ -26,7 +26,8 @@ internal class ImageManagementService : IImageManagementService
     public async Task<List<string>> UploadImagesAsync(IFormFileCollection imageFiles, string src)
     {
         List<string> uploadedImageUrls = new List<string>();
-        string uploadPath = Path.Combine("wwwroot", "Images", src);
+        string folderName = src.Replace(" ", "_");
+        string uploadPath = Path.Combine("wwwroot", "Images", folderName);
 
         if (!Directory.Exists(uploadPath))
         {
@@ -43,7 +44,7 @@ internal class ImageManagementService : IImageManagementService
                 {
                     imageFile.CopyTo(stream);
                 }
-                uploadedImageUrls.Add($"/Images/{src}/{fileName}");
+                uploadedImageUrls.Add($"/Images/{folderName}/{fileName}");
             }
         }
 

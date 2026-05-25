@@ -45,20 +45,10 @@ public class ProductController : BaseController
     [HttpGet("all-products")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAllProducts()
+    public async Task<IActionResult> GetAllProducts([FromQuery] string? sortBy = null, [FromQuery] bool isDescending = false)
     {
         IReadOnlyList<ProductDTO> products = await _uow.ProductRepository
-        .GetAllAndIncludeAsync(p => new ProductDTO
-        (
-            p.ProductID,
-            p.ProductName,
-            p.Description,
-            p.Category.CategoryName,
-            p.NewPrice,
-            p.OldPrice,
-            p.ProductImages.Select(pi => pi.ImageURL).ToList()
-        ),
-        p => p.CategoryID);
+        .GetAllAsync(sortBy, isDescending);
 
         if (products is null || !products.Any())
             return NotFound(new APIResponse(404));

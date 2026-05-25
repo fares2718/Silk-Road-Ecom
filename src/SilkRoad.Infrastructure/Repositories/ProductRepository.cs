@@ -44,6 +44,7 @@ internal class ProductRepository : BaseRepository<Product>, IProductRepository
         Product? product = await _context.Products
         .Include(p => p.ProductImages)
         .FirstOrDefaultAsync(p => p.ProductID == id);
+
         if (product is null)
             throw new KeyNotFoundException($"Product with ID {id} not found.");
 
@@ -52,6 +53,33 @@ internal class ProductRepository : BaseRepository<Product>, IProductRepository
 
         _context.Products.Remove(product);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<IReadOnlyList<ProductDTO>> GetAllAsync(string? sortBy = null, bool isDescending = false)
+    {
+        IQueryable<Product> query = _context.Products.Include(p => p.ProductImages).AsNoTracking();
+
+        if (!string.IsNullOrEmpty(sortBy))
+        {
+            query = sortBy.ToLower() switch
+            {
+                "name" => isDescending ? query.OrderByDescending(p => p.ProductName) : query.OrderBy(p => p.ProductName),
+                "price" => isDescending ? query.OrderByDescending(p => p.NewPrice) : query.OrderBy(p => p.NewPrice),
+                _ => query
+            };
+        }
+
+        return await query
+        .Select(p =>new ProductDTO(
+            p.ProductID,
+            p.ProductName,
+            p.Description,
+            p.Category.CategoryName,
+            p.NewPrice,
+            p.OldPrice,
+            p.ProductImages.Select(pi => pi.ImageURL).ToList()
+        ))
+        .ToListAsync();
     }
 
     public async Task<bool> UpdateAsync(UpdateProductDTO product)
