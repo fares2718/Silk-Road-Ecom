@@ -26,7 +26,7 @@ public record ProductDTO
 public record UpdateProductDTO
 (
     int ProductID,
-    string ProductName,
     string? Description,
-    decimal Price
+    decimal NewPrice,
+    IFormFileCollection? ProductImages
 );

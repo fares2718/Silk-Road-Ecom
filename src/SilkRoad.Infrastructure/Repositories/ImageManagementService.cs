@@ -15,11 +15,11 @@ internal class ImageManagementService : IImageManagementService
 
     public void DeleteImagesAsync(string src)
     {
-        IFileInfo directoryInfo = _fileProvider.GetFileInfo(src);
-        string directoryPath = directoryInfo.PhysicalPath!;
-        if (Directory.Exists(directoryPath))
+        string wwwrootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+        string imagePath = Path.Combine(wwwrootPath, src.TrimStart('/'));
+        if (File.Exists(imagePath))
         {
-            Directory.Delete(directoryPath, true);
+            File.Delete(imagePath);
         }
     }
 

@@ -96,12 +96,14 @@ public class ProductController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateProduct([FromBody] ProductDTO productDTO)
+    public async Task<IActionResult> UpdateProduct([FromQuery] UpdateProductDTO productDTO)
     {
-        if (productDTO is null)
+        if (productDTO is null || productDTO.ProductID <= 0)
             return BadRequest(new APIResponse(400));
-        Product product = _mapper.Map<Product>(productDTO);
-        await _uow.ProductRepository.UpdateAsync(product);
+
+        if(!await _uow.ProductRepository.UpdateAsync(productDTO))
+            return NotFound(new APIResponse(404));
+
         return Ok(new APIResponse(200));
     }
 }

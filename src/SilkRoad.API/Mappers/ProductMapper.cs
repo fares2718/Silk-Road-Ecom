@@ -18,12 +18,15 @@ public class ProductMapper : Profile
         .ReverseMap();
 
         CreateMap<UpdateProductDTO, Product>()
+        .ForMember(dest => dest.ProductImages, opt => opt.Ignore())
         .ForAllMembers(opt => opt.Condition((src, dest, srcMember) =>
         {
             if (srcMember == null)
                 return false; // Skip mapping if the source member is null
             if (srcMember is string str)
                 return !string.IsNullOrEmpty(str); // Skip mapping if the source string is null or empty
+            if(srcMember is decimal dec)
+                return dec != 0; // Skip mapping if the source decimal is zero
             return true; // Map other types of members
         }));
     }
