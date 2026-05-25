@@ -18,6 +18,7 @@ public class ExceptionMiddleware
     {
         try
         {
+            PreventXssAndCSRFAttack(context);
             await _next(context);
         }
         catch (Exception ex)
@@ -39,5 +40,12 @@ public class ExceptionMiddleware
             string json = JsonSerializer.Serialize(response);
             await context.Response.WriteAsync(json);
         }
+    }
+
+    private void PreventXssAndCSRFAttack(HttpContext context)
+    {
+        context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+        context.Response.Headers.Append("X-Frame-Options", "DENY");
+        context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
     }
 }
