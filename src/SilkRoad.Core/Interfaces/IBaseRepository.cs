@@ -8,8 +8,7 @@ public interface IBaseRepository<T>where T : class
     Task DeleteAsync(int id);
     Task<IReadOnlyList<TDTO>> GetAllAsync<TDTO>(Expression<Func<T, TDTO>> selector) where TDTO : class;
     Task<IReadOnlyList<TDTO>> GetAllAndIncludeAsync<TKey,TDTO>(Expression<Func<T, TDTO>> selector,
-    Expression<Func<T, TKey>>? orderBy = null,
-    bool isDescending = false
+    Expression<Func<T, TKey>>? groupBy = null
     ) where TDTO : class;
     
     Task<IReadOnlyList<TResult>> GetAllAndJoinAsync<TTarget, TKey, TResult>(

@@ -34,15 +34,16 @@ internal class BaseRepository<T> : IBaseRepository<T> where T : class
     /// <param name="includeProperties"></param>
     /// <returns>IReadOnlyList<T></returns>
     public async Task<IReadOnlyList<TDTO>> GetAllAndIncludeAsync<TKey, TDTO>(Expression<Func<T, TDTO>> selector,
-    Expression<Func<T, TKey>>? orderBy = null,
-    bool isDescending = false
+    Expression<Func<T, TKey>>? groupBy = null
     ) where TDTO : class
     {
-        var query = _context.Set<T>().AsNoTracking().AsQueryable();
+        var query = _context.Set<T>().AsNoTracking();
 
-        if (orderBy != null)
+        if (groupBy != null)
         {
-            query = isDescending ? query.OrderByDescending(orderBy) : query.OrderBy(orderBy);
+            query = query
+            .GroupBy(groupBy)
+            .SelectMany(g => g);
         }
 
         return await query
