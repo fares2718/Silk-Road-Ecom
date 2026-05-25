@@ -2,10 +2,10 @@
 
 public class APIResponse
 {
-    public APIResponse(int statusCode)
+    public APIResponse(int statusCode , string? message = null)
     {
         StatusCode = statusCode;
-        Message = GenerateResponseMessage(statusCode);
+        Message = message ?? GenerateResponseMessage(statusCode);
     }
 
     private string GenerateResponseMessage(int statusCode)
@@ -17,7 +17,8 @@ public class APIResponse
             400 => "Invalid Request",
             401 => "Invalid Credentials",
             403 => "Access Denied",
-            404 => "No Data Found",
+            404 => "Not Found",
+            429 => "Too Many Requests",
             500 => "Failure",
             _ => "Unknown Error"
         };

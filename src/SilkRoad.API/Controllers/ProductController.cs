@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using SilkRoad.API.Controllers;
 using SilkRoad.Core;
-using Microsoft.EntityFrameworkCore;
-using SilkRoad.Core.Entities;
 
-namespace SilkRoad.API;
+namespace SilkRoad.API.Controllers;
 
 public class ProductController : BaseController
 {

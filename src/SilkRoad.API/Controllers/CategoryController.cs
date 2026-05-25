@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SilkRoad.Core;
 using SilkRoad.Core.Entities;
 using SilkRoad.API;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace SilkRoad.API.Controllers
 {
@@ -60,6 +61,7 @@ namespace SilkRoad.API.Controllers
         }
 
         [HttpGet("category/{id}")]
+        [EnableRateLimiting("Limiter")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
