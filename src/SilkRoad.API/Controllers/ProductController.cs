@@ -45,14 +45,20 @@ public class ProductController : BaseController
     [HttpGet("all-products")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetAllProducts([FromQuery] string? sortBy = null, [FromQuery] bool isDescending = false)
+    public async Task<IActionResult> GetAllProducts([FromQuery] ProductParams productParams)
     {
         IReadOnlyList<ProductDTO> products = await _uow.ProductRepository
-        .GetAllAsync(sortBy, isDescending);
+        .GetAllAsync(productParams);
 
         if (products is null || !products.Any())
             return NotFound(new APIResponse(404));
-        return Ok(products);
+        return Ok(new Pagination<ProductDTO>
+        (
+            productParams.PageNumber,
+            productParams.PageSize,
+            products.Count,
+            products
+        ));
     }
 
     [HttpGet("product/{id}")]
