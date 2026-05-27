@@ -1,0 +1,217 @@
+.shopping-page {
+  color: #f9fafb;
+
+  // =========================
+  // HEADER
+  // =========================
+
+  .shopping-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+
+    .main-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .results-text {
+      margin-left: 2rem;
+      color: #9ca3af;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    // SEARCH BAR
+    .search-container {
+      .search-bar {
+        width: 300px;
+        height: 42px;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #1f2937;
+        border: 1px solid #374151;
+
+        .form-control {
+          background: transparent;
+          border: none;
+          color: #f9fafb;
+          box-shadow: none;
+
+          &::placeholder {
+            color: #9ca3af;
+          }
+
+          &:focus {
+            box-shadow: none;
+          }
+        }
+
+        .search-btn {
+          background: #ff7920;
+          border: none;
+          outline: 1px solid #111827;
+          padding: 0 16px;
+          transition: 0.25s ease;
+
+          &:hover {
+            background: #ea580c;
+          }
+        }
+      }
+    }
+  }
+
+  // =========================
+  // SIDEBAR
+  // =========================
+
+  .sidebar-card {
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 18px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  }
+
+  // SECTION TITLES
+  .section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #fb923c;
+  }
+
+  // SELECT
+  .custom-select {
+    background: #111827;
+    border: 1px solid #374151;
+    color: #f9fafb;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    transition: 0.25s ease;
+
+    &:focus {
+      border-color: #fb923c;
+      box-shadow: 0 0 0 0.2rem rgba(251, 146, 60, 0.2);
+      background: #111827;
+      color: #fff;
+    }
+  }
+
+  // CHECKBOX
+  .custom-check {
+    .form-check-input {
+      background-color: #111827;
+      border: 1px solid #4b5563;
+
+      &:checked {
+        background-color: #fb923c;
+        border-color: #fb923c;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 0.15rem rgba(251, 146, 60, 0.25);
+      }
+    }
+
+    .form-check-label {
+      color: #d1d5db;
+      font-size: 0.95rem;
+    }
+  }
+
+  // CATEGORY LIST
+  .category-list {
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .category-item {
+      background: #111827;
+      border: 1px solid #374151;
+      color: #d1d5db;
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+
+      &:hover {
+        background: #fb923c;
+        border-color: #fb923c;
+        color: #fff;
+        transform: translateX(4px);
+      }
+
+      &.active {
+        background: #ea580c;
+        border-color: #ea580c;
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+  }
+
+  // =========================
+  // PRODUCTS AREA
+  // =========================
+
+  .products-placeholder {
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 18px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+
+    h4 {
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: #9ca3af;
+      margin: 0;
+    }
+  }
+
+  // =========================
+  // MOBILE
+  // =========================
+
+  @media (max-width: 768px) {
+    .shopping-header {
+      flex-direction: column;
+      align-items: stretch;
+
+      .search-container {
+        width: 100%;
+
+        .search-bar {
+          width: 100%;
+        }
+      }
+    }
+
+    .results-text {
+      margin: 2rem 0;
+      color: #9ca3af;
+      font-size: 0.25rem;
+      font-weight: 500;
+    }
+
+    .sidebar-card {
+      margin-bottom: 1rem;
+    }
+  }
+}

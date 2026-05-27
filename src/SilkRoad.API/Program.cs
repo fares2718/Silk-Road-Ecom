@@ -55,7 +55,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors("SilkRoadCORS");
 
 app.UseMiddleware<ExceptionMiddleware>();
 

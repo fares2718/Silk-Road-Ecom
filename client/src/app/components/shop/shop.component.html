@@ -1,0 +1,106 @@
+<div class="shopping-page container py-5">
+  <!-- HEADER -->
+  <div class="shopping-header">
+    <!-- LEFT -->
+    <div class="d-flex align-items-center flex-wrap">
+      <h1 class="main-title mb-0">Shopping</h1>
+
+      <span class="results-text"> Showing 3 of 5 products </span>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-container">
+      <div class="input-group search-bar">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search products..."
+        />
+
+        <button class="btn search-btn">
+          Search
+        </button>
+        <button class="btn search-btn">
+          Reset
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- SIDEBAR -->
+    <aside class="col-lg-3">
+      <div class="sidebar-card">
+        <!-- SORT -->
+        <div class="mb-4">
+          <h5 class="section-title">Sort Products</h5>
+
+          <select class="form-select custom-select">
+            <option selected>Sort By</option>
+
+            <option value="name">Name</option>
+
+            <option value="price">Price</option>
+          </select>
+
+          <!-- DESCENDING -->
+          <div class="form-check custom-check mt-3">
+            <input class="form-check-input" type="checkbox" id="descending" />
+
+            <label class="form-check-label" for="descending">
+              Descending Order
+            </label>
+          </div>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div>
+          <h5 class="section-title">Categories</h5>
+
+          <ul class="list-group category-list">
+            <li class="list-group-item category-item active">All Products</li>
+
+            <li class="list-group-item category-item">Electronics</li>
+
+            <li class="list-group-item category-item">Fashion</li>
+
+            <li class="list-group-item category-item">Accessories</li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- PRODUCTS -->
+    <section class="col-lg-9">
+      <!-- <div class="products-placeholder">
+        <h4>Products will appear here</h4>
+
+        <p>Your shopping items grid goes here.</p>
+      </div> -->
+
+      <div class="row g-4">
+        <div class="col-12 col-sm-6">
+          <app-product/>
+        </div>
+        <div class="col-12 col-sm-6">
+          <app-product/>
+        </div>
+        <div class="col-12 col-sm-6">
+          <app-product/>
+        </div>
+        <div class="col-12 col-sm-6">
+          <app-product/>
+        </div>
+        <div class="col-12 col-sm-6">
+          <app-product/>
+        </div>
+        <div class="col-12 col-sm-6">
+          <app-product/>
+        </div>
+        <div class="col-12 col-sm-6">
+          <app-product/>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
