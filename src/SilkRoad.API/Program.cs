@@ -24,6 +24,17 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("SilkRoadCORS",builder =>
+    {
+       builder.AllowAnyHeader()
+       .AllowAnyMethod()
+       .AllowCredentials()
+       .WithOrigins("http://localhost:4200"); 
+    });
+});
+
 
 // Add services to the container.
 
@@ -43,6 +54,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseMiddleware<ExceptionMiddleware>();
 

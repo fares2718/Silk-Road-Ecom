@@ -68,7 +68,7 @@ internal class ProductRepository : BaseRepository<Product>, IProductRepository
         if(!string.IsNullOrEmpty(productParams.Search))
             query = query.Where(p => p.ProductName.ToLower()
             .Contains(productParams.Search.ToLower()) ||
-            p.Description.ToLower()
+            p.Description!.ToLower()
             .Contains(productParams.Search.ToLower())
             );
 
