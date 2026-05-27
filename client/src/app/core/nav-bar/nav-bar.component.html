@@ -1,0 +1,104 @@
+<nav class="navbar navbar-expand-lg custom-navbar">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand" routerLink="/">
+      <img src="../../../../public/assets/logo.ico" alt="Logo" class="logo" />
+      <span class="brand-text">Silk Road</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button
+      class="navbar-toggler text-white"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarContent"
+      aria-controls="navbarContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <!-- Left Nav -->
+      <ul class="navbar-nav mx-auto align-items-center">
+        <li class="nav-item">
+          <a class="nav-link active" routerLink="/">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shopping">Shopping</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about">About Us</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/best-seller">Best Seller</a>
+        </li>
+      </ul>
+
+      <!-- Search -->
+      <form class="search-form d-flex">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search..." />
+
+          <button class="btn search-btn" type="submit">
+            <i class="material-icons">search</i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Right Icons -->
+      <ul class="navbar-nav right-nav align-items-center">
+        <!-- Cart -->
+        <li class="nav-item">
+          <a routerLink="/cart" class="nav-link icon-link">
+            <i class="material-icons">shopping_cart</i>
+          </a>
+        </li>
+
+        <!-- Profile -->
+        <li class="nav-item dropdown">
+          <a
+            (click)="toggleDorpDown()"
+            class="nav-link dropdown-toggle icon-link"
+            id="navbarDropDown"
+            role="button"
+            data-bs-toggle="dropdown"
+          >
+            <i class="material-icons">account_circle</i>
+          </a>
+
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            [class.show]="isDropDownVisible"
+          >
+            <li>
+              <a routerLink="/register" class="dropdown-item">
+                <i class="fa fa-user-plus  me-2"></i>
+                Register
+              </a>
+            </li>
+
+            <li>
+              <a routerLink="/login" class="dropdown-item">
+                <i class="fa fa-sign-in me-2"></i>
+                Login
+              </a>
+            </li>
+
+            <li>
+              <a routerLink="/orders" class="dropdown-item">
+                <i class="fa fa-list me-2"></i>
+                My Orders
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
