@@ -17,12 +17,8 @@
           placeholder="Search products..."
         />
 
-        <button class="btn search-btn">
-          Search
-        </button>
-        <button class="btn search-btn">
-          Reset
-        </button>
+        <button class="btn search-btn">Search</button>
+        <button class="btn search-btn">Reset</button>
       </div>
     </div>
   </div>
@@ -56,50 +52,34 @@
         <!-- CATEGORIES -->
         <div>
           <h5 class="section-title">Categories</h5>
-
-          <ul class="list-group category-list">
-            <li class="list-group-item category-item active">All Products</li>
-
-            <li class="list-group-item category-item">Electronics</li>
-
-            <li class="list-group-item category-item">Fashion</li>
-
-            <li class="list-group-item category-item">Accessories</li>
-          </ul>
+          <select class="list-group category-list">
+            <option
+              class="list-group-item category-item"
+              value="all-products"
+              selected
+            >
+              All Products
+            </option>
+            @for(category of Categories;track $index){
+              <option class="list-group-item category-item" [value]="category.categoryID">
+                {{category.categoryName}}
+              </option>
+            }
+          </select>
         </div>
       </div>
     </aside>
 
     <!-- PRODUCTS -->
     <section class="col-lg-9">
-      <!-- <div class="products-placeholder">
-        <h4>Products will appear here</h4>
-
-        <p>Your shopping items grid goes here.</p>
-      </div> -->
-
       <div class="row g-4">
-        <div class="col-12 col-sm-6">
-          <app-product/>
-        </div>
-        <div class="col-12 col-sm-6">
-          <app-product/>
-        </div>
-        <div class="col-12 col-sm-6">
-          <app-product/>
-        </div>
-        <div class="col-12 col-sm-6">
-          <app-product/>
-        </div>
-        <div class="col-12 col-sm-6">
-          <app-product/>
-        </div>
-        <div class="col-12 col-sm-6">
-          <app-product/>
-        </div>
-        <div class="col-12 col-sm-6">
-          <app-product/>
-        </div>
+        @for (product of Products; track $index) {
+          <ng-container>
+            <div class="col-12 col-sm-6">
+              <app-product [product]="product" />
+            </div>
+          </ng-container>
+        }
       </div>
     </section>
   </div>

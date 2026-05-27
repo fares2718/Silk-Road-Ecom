@@ -45,7 +45,7 @@ $text-muted: #9ca3af;
 
   .main-image {
     width: 100%;
-    height: 270px;
+    height: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
     display: block;
@@ -204,8 +204,8 @@ $text-muted: #9ca3af;
 
   .product-actions {
     display: flex;
+    flex-direction: row;
     gap: 10px;
-    flex-wrap: wrap;
     margin-top: auto;
 
     button {

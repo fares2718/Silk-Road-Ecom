@@ -57,6 +57,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("SilkRoadCORS");
 
+app.UseStaticFiles(); 
+
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseStatusCodePagesWithReExecute("/error/{0}");

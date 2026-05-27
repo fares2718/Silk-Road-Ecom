@@ -1,35 +1,26 @@
 <article class="product-card">
   <!-- PRODUCT IMAGE -->
   <div class="product-media">
-    <a href="#" class="main-image-container">
+    <a class="main-image-container">
       <img
-        src="/assets/logo.ico"
-        alt="Nike Air Max Running Shoes"
+        [src]="'https://localhost:7041'+product().imageURLs[0]"
+        [alt]="product().productName + ' image'"
         class="main-image"
       />
 
-      <span class="category-badge"> Shoes </span>
+      <span class="category-badge"> {{ product().categoryName }}</span>
     </a>
 
     <!-- THUMBNAILS -->
     <div class="thumbnail-container">
-      <img
-        src="/assets/logo.ico"
-        alt="Product thumbnail"
-        class="thumbnail-image active-thumb"
-      />
-
-      <img
-        src="/assets/logo.ico"
-        alt="Product thumbnail"
-        class="thumbnail-image"
-      />
-
-      <img
-        src="/assets/logo.ico"
-        alt="Product thumbnail"
-        class="thumbnail-image"
-      />
+      @for (image of product().imageURLs; track $index) {
+        <img
+          [src]="'https://localhost:7041'+image"
+          [alt]="product().productName + ' thumbnail'"
+          class="thumbnail-image"
+        />
+        <!-- active-thumb first one by default -->
+      }
     </div>
   </div>
 
@@ -39,21 +30,20 @@
     <span class="product-category"> Running Collection </span>
 
     <!-- TITLE -->
-    <h2 class="product-title">Nike Air Max 270</h2>
+    <h2 class="product-title">{{product().productName}}</h2>
 
     <!-- DESCRIPTION -->
     <p class="product-description">
-      Premium lightweight running shoes designed for comfort, flexibility, and
-      everyday street fashion.
+      {{product().description}}
     </p>
 
     <!-- PRICE -->
     <div class="price-container">
-      <span class="new-price"> $120 </span>
+      <span class="new-price"> {{product().newPrice|currency}} </span>
 
-      <span class="old-price"> $160 </span>
+      <span class="old-price"> {{product().oldPrice|currency}} </span>
 
-      <span class="discount-badge"> -25% </span>
+      <span class="discount-badge"> {{getDiscountPercent()}}%</span>
     </div>
 
     <!-- RATING -->

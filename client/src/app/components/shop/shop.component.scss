@@ -125,38 +125,31 @@
     }
   }
 
-  // CATEGORY LIST
-  .category-list {
-    background: transparent;
-    border: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  // CATEGORY SELECT (Updated for native dropdown)
+.category-list {
+  background: #111827;       // Matches old item background
+  border: 1px solid #374151; // Matches old item border
+  color: #d1d5db;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;     // Kept original padding
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: 100%;
+  appearance: none;          // Removes default browser arrow
 
-    .category-item {
-      background: #111827;
-      border: 1px solid #374151;
-      color: #d1d5db;
-      border-radius: 12px;
-      padding: 0.85rem 1rem;
-      cursor: pointer;
-      transition: all 0.25s ease;
-
-      &:hover {
-        background: #fb923c;
-        border-color: #fb923c;
-        color: #fff;
-        transform: translateX(4px);
-      }
-
-      &.active {
-        background: #ea580c;
-        border-color: #ea580c;
-        color: #fff;
-        font-weight: 600;
-      }
-    }
+  &:hover, &:focus {
+    border-color: #fb923c;   // Orange accent highlight
+    outline: none;
   }
+
+  .category-item {
+    background: #111827;     // Dark background for modern browser dropdown panels
+    color: #d1d5db;
+    padding: 0.85rem 1rem;   // Fallback padding
+    
+    // Note: Browsers ignore hovers, transforms, and borders inside <option>
+  }
+}
 
   // =========================
   // PRODUCTS AREA
