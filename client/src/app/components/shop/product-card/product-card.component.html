@@ -3,7 +3,7 @@
   <div class="product-media">
     <a class="main-image-container">
       <img
-        [src]="'https://localhost:7041'+product().imageURLs[0]"
+        [src]="'https://localhost:7041' + product().imageURLs[0]"
         [alt]="product().productName + ' image'"
         class="main-image"
       />
@@ -15,7 +15,7 @@
     <div class="thumbnail-container">
       @for (image of product().imageURLs; track $index) {
         <img
-          [src]="'https://localhost:7041'+image"
+          [src]="'https://localhost:7041' + image"
           [alt]="product().productName + ' thumbnail'"
           class="thumbnail-image"
         />
@@ -30,20 +30,22 @@
     <span class="product-category"> Running Collection </span>
 
     <!-- TITLE -->
-    <h2 class="product-title">{{product().productName}}</h2>
+    <h2 class="product-title">{{ product().productName }}</h2>
 
     <!-- DESCRIPTION -->
-    <p class="product-description">
-      {{product().description}}
-    </p>
+    @if (product().description) {
+      <p class="product-description">
+        {{ product().description }}
+      </p>
+    }
 
     <!-- PRICE -->
     <div class="price-container">
-      <span class="new-price"> {{product().newPrice|currency}} </span>
+      <span class="new-price"> {{ product().newPrice | currency }} </span>
 
-      <span class="old-price"> {{product().oldPrice|currency}} </span>
+      <span class="old-price"> {{ product().oldPrice | currency }} </span>
 
-      <span class="discount-badge"> {{getDiscountPercent()}}%</span>
+      <span class="discount-badge"> {{ discountPercent }}%</span>
     </div>
 
     <!-- RATING -->
@@ -69,7 +71,10 @@
         <span> Add To Basket </span>
       </button>
 
-      <button class="btn details-btn">
+      <button
+        routerLink="/product-details/{{product().productID}}"
+        class="btn details-btn"
+      >
         <i class="fa fa-info-circle"></i>
       </button>
     </div>

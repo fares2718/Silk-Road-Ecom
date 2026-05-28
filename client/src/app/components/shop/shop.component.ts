@@ -8,6 +8,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ProductParams } from '../../shared/models/product-params.model';
 import { CustomPaginationComponent } from "../../shared/components/custom-pagination/custom-pagination.component";
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -20,6 +21,7 @@ export class ShopComponent implements OnInit {
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router)
   @ViewChild('search') SearchBox:ElementRef;
   @ViewChild('sort') SortSelected:ElementRef;
   @ViewChild('isDesc') IsDesc:ElementRef;

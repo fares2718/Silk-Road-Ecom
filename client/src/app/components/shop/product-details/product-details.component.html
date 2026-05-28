@@ -1,1 +1,131 @@
-<p>product-details works!</p>
+<section class="product-details-page">
+  <div class="container">
+    <div class="row g-5">
+      <!-- PRODUCT IMAGES -->
+      <div class="col-lg-6">
+        <div class="product-gallery">
+          <!-- MAIN IMAGE -->
+          <div class="main-image-wrapper">
+            <span class="product-badge"> New Arrival </span>
+
+            <img
+              [src]="'https://localhost:7041'+product.imageURLs[0]"
+              alt="Product"
+              class="main-product-image"
+            />
+          </div>
+
+          <!-- THUMBNAILS -->
+          <div class="thumbnail-list">
+            @for(image of product.imageURLs;track $index){
+                <img
+              [src]="'https://localhost:7041'+image"
+              [alt]="product.productName+' thumbnail'"
+              class="main-product-image"
+            />
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCT INFO -->
+      <div class="col-lg-6">
+        <div class="product-info">
+          <!-- CATEGORY -->
+          <span class="product-category"> {{product.categoryName}} </span>
+
+          <!-- TITLE -->
+          <h1 class="product-title">{{product.productName}}</h1>
+
+          <!-- RATING -->
+          <div class="product-rating">
+            <div class="stars">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+            </div>
+
+            <span class="rating-text"> 4.8 (245 Reviews) </span>
+          </div>
+
+          <!-- PRICE -->
+          <div class="price-section">
+            <span class="new-price"> {{product.newPrice|currency}} </span>
+
+            <span class="old-price"> {{product.oldPrice|currency}} </span>
+
+            <span class="discount-badge"> {{discountPercent}}% </span>
+          </div>
+
+          <!-- DESCRIPTION -->
+          @if(product.description){
+            <p class="product-description">
+                {{product.description}}
+            </p>
+          }
+
+          <!-- FEATURES -->
+          <div class="product-features">
+            <div class="feature-item">
+              <i class="fa fa-check-circle"></i>
+              Premium Build Quality
+            </div>
+
+            <div class="feature-item">
+              <i class="fa fa-check-circle"></i>
+              Fast Charging Support
+            </div>
+
+            <div class="feature-item">
+              <i class="fa fa-check-circle"></i>
+              2 Years Warranty
+            </div>
+          </div>
+
+          <!-- QUANTITY -->
+          <div class="quantity-section">
+            <h5>Quantity</h5>
+
+            <div class="quantity-box">
+              <button>-</button>
+
+              <span> 1 </span>
+
+              <button>+</button>
+            </div>
+          </div>
+
+          <!-- ACTION BUTTONS -->
+          <div class="action-buttons">
+            <button class="btn add-cart-btn">
+              <i class="fa fa-shopping-cart"></i>
+
+              Add To Cart
+            </button>
+
+            <button class="btn wishlist-btn">
+              <i class="fa fa-heart"></i>
+            </button>
+          </div>
+
+          <!-- EXTRA INFO -->
+          <div class="extra-info">
+            <div class="info-item">
+              <i class="fa fa-truck"></i>
+
+              Free Delivery Available
+            </div>
+
+            <div class="info-item">
+              <i class="fa fa-refresh"></i>
+
+              30 Days Return Policy
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

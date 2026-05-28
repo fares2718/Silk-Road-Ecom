@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Page } from '../shared/models/pagination.model';
 import { ProductParams } from '../shared/models/product-params.model';
+import { Product } from '../shared/models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,11 @@ export class ProductService {
   private http = inject(HttpClient);
 
   private baseUrl: string = 'https://localhost:7041/api';
+
+  getProductById(productID:number){
+    return this.http.get<Product>(`${this.baseUrl}/Product/product/${productID}`)
+  }
+
 
   getProductsPage(productParams?:ProductParams) {
     let params = new HttpParams();
@@ -26,4 +32,6 @@ export class ProductService {
       params: params,
     });
   }
+
+
 }

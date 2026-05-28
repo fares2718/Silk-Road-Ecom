@@ -1,11 +1,13 @@
 import { Component, input, signal } from '@angular/core';
 import { Product } from '../../../shared/models/product.model';
 import { CurrencyPipe } from '@angular/common';
+import { RouterLink } from "@angular/router";
+import { Utiles } from '../../../helpers/utiles';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss'
 })
@@ -14,16 +16,7 @@ product = input.required<Product>();
 
 
 
-getDiscountPercent(){
-  const oldPrice = this.product().oldPrice;
-  const newPrice = this.product().newPrice;
-
-  if (!oldPrice || oldPrice <= 0 || newPrice >= oldPrice) {
-    return 0;
-  }
-
-  const discount = ((oldPrice - newPrice) / oldPrice) * 100;
-  
-  return discount.toFixed(2); 
+get discountPercent(){
+  return Utiles.getDiscountPercent(this.product().oldPrice,this.product().newPrice); 
 }
 }
