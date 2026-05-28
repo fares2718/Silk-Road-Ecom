@@ -19,4 +19,5 @@ public class ProductParams
     }
     public int PageNumber { get; set; } = 1;
     public string? Search { get; set; } = null; 
+    public int TotalCount {get;set;}
 }

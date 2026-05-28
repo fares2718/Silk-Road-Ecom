@@ -62,6 +62,18 @@
             background: #ea580c;
           }
         }
+
+        .reset-btn {
+          background: #c88135;
+          border: none;
+          outline: 1px solid #111827;
+          padding: 0 16px;
+          transition: 0.25s ease;
+
+          &:hover {
+            background: #e77b45;
+          }
+        }
       }
     }
   }
@@ -126,31 +138,33 @@
   }
 
   // CATEGORY SELECT (Updated for native dropdown)
-.category-list {
-  background: #111827;       // Matches old item background
-  border: 1px solid #374151; // Matches old item border
-  color: #d1d5db;
-  border-radius: 12px;
-  padding: 0.85rem 1rem;     // Kept original padding
-  cursor: pointer;
-  transition: all 0.25s ease;
-  width: 100%;
-  appearance: none;          // Removes default browser arrow
-
-  &:hover, &:focus {
-    border-color: #fb923c;   // Orange accent highlight
-    outline: none;
-  }
-
-  .category-item {
-    background: #111827;     // Dark background for modern browser dropdown panels
+  .category-list {
+    background: #111827; // Matches old item background
+    border: 1px solid #374151; // Matches old item border
     color: #d1d5db;
-    padding: 0.85rem 1rem;   // Fallback padding
-    
-    // Note: Browsers ignore hovers, transforms, and borders inside <option>
-  }
-}
+    border-radius: 12px;
+    padding: 0.85rem 1rem; // Kept original padding
+    cursor: pointer;
+    transition: all 0.25s ease;
+    width: 100%;
+    appearance: none; // Removes default browser arrow
 
+    &:hover,
+    &:focus {
+      border-color: #fb923c; // Orange accent highlight
+      outline: none;
+    }
+
+    .category-item {
+      background: #111827; // Dark background for modern browser dropdown panels
+      color: #d1d5db;
+      padding: 0.85rem 1rem; // Fallback padding
+
+      // Note: Browsers ignore hovers, transforms, and borders inside <option>
+    }
+  }
+
+  
   // =========================
   // PRODUCTS AREA
   // =========================

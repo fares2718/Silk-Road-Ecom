@@ -4,21 +4,27 @@
     <!-- LEFT -->
     <div class="d-flex align-items-center flex-wrap">
       <h1 class="main-title mb-0">Shopping</h1>
-
-      <span class="results-text"> Showing 3 of 5 products </span>
+      <span class="results-text">
+        Showing {{ Products.length }} of {{ totalCount }} products
+      </span>
     </div>
 
     <!-- SEARCH -->
     <div class="search-container">
       <div class="input-group search-bar">
         <input
+          #search
+          (keyup.enter)="onSearch(search.value)"
+          (keyup)="onSearch(search.value)"
           type="text"
           class="form-control"
           placeholder="Search products..."
         />
 
-        <button class="btn search-btn">Search</button>
-        <button class="btn search-btn">Reset</button>
+        <button (keyup)="onSearch(search.value)" class="btn search-btn">
+          Search
+        </button>
+        <button (click)="resetFilters()" class="btn reset-btn">Reset</button>
       </div>
     </div>
   </div>
@@ -31,8 +37,12 @@
         <div class="mb-4">
           <h5 class="section-title">Sort Products</h5>
 
-          <select class="form-select custom-select">
-            <option selected>Sort By</option>
+          <select
+            #sort
+            class="form-select custom-select"
+            (change)="onSortSelected($event)"
+          >
+            <option value="" selected>Sort By</option>
 
             <option value="name">Name</option>
 
@@ -41,7 +51,13 @@
 
           <!-- DESCENDING -->
           <div class="form-check custom-check mt-3">
-            <input class="form-check-input" type="checkbox" id="descending" />
+            <input
+              #isDesc
+              (change)="onOrderChange($event)"
+              class="form-check-input"
+              type="checkbox"
+              id="descending"
+            />
 
             <label class="form-check-label" for="descending">
               Descending Order
@@ -52,28 +68,39 @@
         <!-- CATEGORIES -->
         <div>
           <h5 class="section-title">Categories</h5>
-          <select class="list-group category-list">
+          <select #selectedCategory class="list-group category-list">
             <option
+              (click)="onSelectCategory(0)"
               class="list-group-item category-item"
               value="all-products"
               selected
             >
               All Products
             </option>
-            @for(category of Categories;track $index){
-              <option class="list-group-item category-item" [value]="category.categoryID">
-                {{category.categoryName}}
+            @for (category of Categories; track category.categoryID) {
+              <option
+                (click)="onSelectCategory(category.categoryID)"
+                class="list-group-item category-item"
+                [value]="category.categoryID"
+              >
+                {{ category.categoryName }}
               </option>
             }
           </select>
         </div>
       </div>
+
+      <app-custom-pagination
+        [pageSize]="productParams.pageSize"
+        [totalCount]="totalCount"
+        (pageChanged)="onPageChanged($event)"
+      />
     </aside>
 
     <!-- PRODUCTS -->
     <section class="col-lg-9">
       <div class="row g-4">
-        @for (product of Products; track $index) {
+        @for (product of Products; track product.productID) {
           <ng-container>
             <div class="col-12 col-sm-6">
               <app-product [product]="product" />

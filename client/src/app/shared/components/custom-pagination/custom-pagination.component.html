@@ -1,0 +1,8 @@
+<div class="d-flex justify-content-center align-items-center mt-5 custom-pagination">
+        <pagination
+          (pageChanged)="onPageChanged($event.page)"
+          [itemsPerPage]="pageSize()"
+          [totalItems]="totalCount()"
+        >
+        </pagination>
+</div>

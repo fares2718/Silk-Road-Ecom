@@ -56,7 +56,7 @@ public class ProductController : BaseController
         (
             productParams.PageNumber,
             productParams.PageSize,
-            products.Count,
+            productParams.TotalCount,
             products
         ));
     }

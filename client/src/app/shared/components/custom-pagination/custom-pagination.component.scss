@@ -1,0 +1,37 @@
+// =========================
+  // Pagination
+  // =========================
+
+  ::ng-deep .custom-pagination {
+    object-fit: contain;
+
+  .pagination {
+    gap: 6px;
+  }
+
+  .page-link {
+    background: #111827 !important;
+    border: 1px solid #374151 !important;
+    color: #f9fafb !important;
+    border-radius: 12px !important;
+    padding: 8px 14px;
+    transition: all 0.25s ease;
+  }
+
+  .page-link:hover {
+    background: #1f2937 !important;
+    border-color: #fb923c !important;
+    color: #fb923c !important;
+  }
+
+  .page-item.active .page-link {
+    background: #fb923c !important;
+    border-color: #fb923c !important;
+    color: #fff !important;
+  }
+
+  .page-item.disabled .page-link {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

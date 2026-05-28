@@ -86,7 +86,7 @@ internal class ProductRepository : BaseRepository<Product>, IProductRepository
             };
         }
 
-
+        productParams.TotalCount = await query.CountAsync();
         return await query
         .Skip((productParams.PageNumber - 1) * productParams.PageSize)
         .Take( productParams.PageSize)
