@@ -21,7 +21,7 @@ export class ShopComponent implements OnInit {
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
   private destroyRef = inject(DestroyRef);
-  private router = inject(Router)
+  private router = inject(Router);
   @ViewChild('search') SearchBox:ElementRef;
   @ViewChild('sort') SortSelected:ElementRef;
   @ViewChild('isDesc') IsDesc:ElementRef;
@@ -62,8 +62,10 @@ export class ShopComponent implements OnInit {
   }
 
   onSearch(search:string){
-    this.productParams.search = search;
-    this.getProducts();
+    setTimeout(()=>{
+      this.productParams.search = search;
+      this.getProducts();
+    },1000);
   }
 
 

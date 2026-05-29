@@ -15,12 +15,11 @@
         <input
           #search
           (keyup.enter)="onSearch(search.value)"
-          (keyup)="onSearch(search.value)"
           type="text"
           class="form-control"
           placeholder="Search products..."
         />
-
+        <!-- (keyup)="onSearch(search.value)" -->
         <button (keyup)="onSearch(search.value)" class="btn search-btn">
           Search
         </button>
