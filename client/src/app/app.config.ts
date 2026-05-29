@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import {
   provideRouter,
   withComponentInputBinding,
@@ -6,15 +10,17 @@ import {
 } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { loaderInterceptor } from './interceptors/loader.interceptor';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { NgxSpinnerModule, provideSpinnerConfig } from 'ngx-spinner';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
     provideClientHydration(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([loaderInterceptor])),
     provideRouter(
       routes,
       withComponentInputBinding(),
@@ -22,5 +28,11 @@ export const appConfig: ApplicationConfig = {
         paramsInheritanceStrategy: 'always',
       }),
     ),
+    //provideAnimations(),
+    importProvidersFrom(
+      BrowserModule,
+      BrowserAnimationsModule,
+      NgxSpinnerModule.forRoot({ type: 'square-jelly-box' })
+    )
   ],
 };
