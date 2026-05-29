@@ -5,11 +5,12 @@ import { ProductService } from '../../../services/product.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
 import { Utiles } from '../../../helpers/utiles';
+import {NgxImageZoomModule} from 'ngx-image-zoom';
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe,NgxImageZoomModule],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
