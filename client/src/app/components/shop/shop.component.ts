@@ -8,7 +8,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ProductParams } from '../../shared/models/product-params.model';
 import { CustomPaginationComponent } from "../../shared/components/custom-pagination/custom-pagination.component";
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
