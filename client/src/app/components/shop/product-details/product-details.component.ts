@@ -29,6 +29,8 @@ product:Product = {
   productName:''
 };
 
+mainImage:string;
+
 ngOnInit(): void {
     this.product.productID =parseInt( this.route.snapshot.paramMap.get('id'));
     this.getProduct();
@@ -41,12 +43,17 @@ getProduct(){
   .subscribe({
     next:(productData) => {
       this.product = productData;
+      this.mainImage = `https://localhost:7041${productData.imageURLs[0]}`
     }
   })
 }
 
 get discountPercent(){
   return Utiles.getDiscountPercent(this.product.oldPrice,this.product.newPrice); 
+}
+
+changeMainImage(imageURL:string){
+  this.mainImage = `https://localhost:7041${imageURL}`
 }
 
 }
