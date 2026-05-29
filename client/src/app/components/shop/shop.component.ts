@@ -9,6 +9,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ProductParams } from '../../shared/models/product-params.model';
 import { CustomPaginationComponent } from "../../shared/components/custom-pagination/custom-pagination.component";
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shop',
@@ -21,7 +22,7 @@ export class ShopComponent implements OnInit {
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
   private destroyRef = inject(DestroyRef);
-  private router = inject(Router);
+  private toastrService = inject(ToastrService);
   @ViewChild('search') SearchBox:ElementRef;
   @ViewChild('sort') SortSelected:ElementRef;
   @ViewChild('isDesc') IsDesc:ElementRef;
@@ -77,8 +78,9 @@ export class ShopComponent implements OnInit {
         next: (page) => {
           this.Products = page.data;
           this.totalCount = page.totalCount;
-          this.productParams.pageNumber= page.pageNumber
-          this.productParams.pageSize= page.pageSize
+          this.productParams.pageNumber= page.pageNumber;
+          this.productParams.pageSize= page.pageSize;
+          //this.toastrService.success('products loaded successfuly','Success')
         },
       });
   }

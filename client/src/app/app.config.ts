@@ -14,7 +14,8 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { loaderInterceptor } from './interceptors/loader.interceptor';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
-import { NgxSpinnerModule, provideSpinnerConfig } from 'ngx-spinner';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,7 +33,14 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       BrowserModule,
       BrowserAnimationsModule,
-      NgxSpinnerModule.forRoot({ type: 'square-jelly-box' })
-    )
+      NgxSpinnerModule.forRoot({ type: 'square-jelly-box' }),
+    ),
+    provideToastr({
+      closeButton:true,
+      positionClass:'toast-top-right',
+      timeOut: 2000,
+      countDuplicates:true,
+      progressBar:true
+    })
   ],
 };
