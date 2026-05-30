@@ -1,28 +1,35 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { Basket, IBasket } from '../shared/models/basket.model';
 import { BasketItem } from '../shared/models/basket-item.model';
 import { BehaviorSubject, map } from 'rxjs';
 import { Product } from '../shared/models/product.model';
+import { BasketTotal } from '../shared/models/basket-total.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BasketService {
   private http = inject(HttpClient);
+  private destroyRef = inject(DestroyRef);
 
   private baseUrl: string = 'https://localhost:7041/api';
 
   private basketSource = new BehaviorSubject<IBasket>(null);
-
+  private basketTotalSource = new BehaviorSubject<BasketTotal>(null);
   basket$ = this.basketSource.asObservable();
+  basketTotal$ = this.basketTotalSource.asObservable();
+ 
 
   addUpdateBasket(basket: Basket) {
     return this.http
       .post(`${this.baseUrl}/Basket/add-update-basket`, basket)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res: IBasket) => {
           this.basketSource.next(res);
+          this.calculateBasketTotal();
           console.log(res);
         },
         error: (err) => console.log(err),
@@ -46,6 +53,25 @@ export class BasketService {
     else
       basketItems[itemIndex].quantity+=basketItem.quantity;
     return basketItems;
+  }
+
+  calculateBasketTotal(){
+    const basket = this.currentValue;
+    const shipping = 0;
+    const subTotal = basket.basketItems.reduce(
+      (accumulator, currentItem) => {
+        return accumulator + currentItem.price * currentItem.quantity;
+      },
+      0,
+    );
+    const tax = 0;
+    const total = shipping+tax+subTotal;
+    this.basketTotalSource.next({
+      subTotal:subTotal,
+      shipping:shipping,
+      tax:tax,
+      Total:total
+    });
   }
 
   private createBasket(): IBasket {
@@ -74,6 +100,7 @@ export class BasketService {
       .pipe(
         map((res: IBasket) => {
           this.basketSource.next(res);
+          this.calculateBasketTotal();
           return res;
           //console.log(res);
         }),

@@ -1,9 +1,8 @@
-export class BasketTotal {
+export interface BasketTotal {
   subTotal: number;
   tax: number;
   shipping: number;
 
-get Total(){
-    return this.subTotal+this.tax+this.shipping;
+  Total:number;
 }
-}
+

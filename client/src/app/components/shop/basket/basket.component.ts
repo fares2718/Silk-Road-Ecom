@@ -5,6 +5,7 @@ import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { OrderSummaryComponent } from '../order-summary/order-summary.component';
 import { BasketTotal } from '../../../shared/models/basket-total.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-basket',
@@ -18,11 +19,20 @@ export class BasketComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   basket: IBasket;
+  basketTotal:BasketTotal;
 
   ngOnInit(): void {
-    this.basketService.basket$.subscribe({
+    this.basketService.basket$
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
       next: (value) => (this.basket = value),
       error: (err) => console.log(err),
+    });
+    this.basketService.basketTotal$
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next:(value)=>  this.basketTotal = value,
+      error:(err) => console.log(err)
     });
   }
 
@@ -44,17 +54,4 @@ export class BasketComponent implements OnInit {
     this.basketService.addUpdateBasket(this.basket);
   }
 
-  get basketTotal() {
-    const basketTotal = new BasketTotal();
-    
-    basketTotal.subTotal = this.basket.basketItems.reduce(
-      (accumulator, currentItem) => {
-        return accumulator + currentItem.price * currentItem.quantity;
-      },
-      0,
-    );
-    basketTotal.shipping = 3;
-    basketTotal.tax = 25
-    return basketTotal;
-  }
 }
