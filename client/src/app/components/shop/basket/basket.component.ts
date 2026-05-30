@@ -22,6 +22,11 @@ export class BasketComponent implements OnInit {
     // this.basketService.getBasketById('')
   }
 
+  deleteItem(itemId:number){
+    this.basket.basketItems = this.basket.basketItems.filter(bi => bi.itemID !== itemId);
+    this.basketService.addUpdateBasket(this.basket);
+  }
+
   get totalAmount() {
     return this.basket.basketItems.reduce((accumulator, currentItem) => {
       return accumulator + currentItem.price * currentItem.quantity;

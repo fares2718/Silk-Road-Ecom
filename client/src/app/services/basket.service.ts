@@ -15,9 +15,9 @@ export class BasketService {
 
   private basketSource = new BehaviorSubject<IBasket>(null);
 
-  basket = this.basketSource.asObservable();
+  basket$ = this.basketSource.asObservable();
 
-  private addUpdateBasket(basket: Basket) {
+  addUpdateBasket(basket: Basket) {
     return this.http
       .post(`${this.baseUrl}/Basket/add-update-basket`, basket)
       .subscribe({
@@ -40,7 +40,7 @@ export class BasketService {
   }
 
   private addOrUpdateItemQuantity(basketItems:BasketItem[],basketItem:BasketItem){
-    const itemIndex = basketItems.indexOf(basketItem);
+    const itemIndex = basketItems.findIndex(bi => bi.itemID == basketItem.itemID);
     if(itemIndex==-1)
       basketItems.push(basketItem);
     else

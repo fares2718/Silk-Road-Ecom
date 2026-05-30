@@ -34,7 +34,7 @@
             <!-- TOTAL -->
             <div class="item-total">{{item.quantity*item.price|currency}}</div>
 
-            <button class="remove-btn">
+            <button (click)="deleteItem(item.itemID)" class="remove-btn">
               <i class="fa fa-trash"></i>
             </button>
           </div>

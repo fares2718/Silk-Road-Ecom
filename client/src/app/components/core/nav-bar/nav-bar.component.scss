@@ -1,3 +1,5 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
 .custom-navbar {
   background: linear-gradient(to right, #111827, #1f2937);
   padding: 0.5rem 1rem;
@@ -145,12 +147,12 @@
     .navbar-toggler {
       border: none;
 
-      &:focus{
+      &:focus {
         box-shadow: none;
       }
     }
 
-    .navbar-toggler-icon{
+    .navbar-toggler-icon {
       filter: invert(1);
     }
 
@@ -172,5 +174,17 @@
       justify-content: center;
       margin-top: 1rem;
     }
+  }
+
+  .nav-link.icon-link {
+    display: inline-inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    overflow: visible !important; /* CRITICAL: Prevents clipping the absolute badge */
+  }
+
+  // Force the material icon structural wrapper to allow bleeding elements
+  mat-icon {
+    overflow: visible !important;
   }
 }

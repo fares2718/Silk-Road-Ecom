@@ -24,19 +24,30 @@
       <!-- Left Nav -->
       <ul class="navbar-nav mx-auto align-items-center">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+          <a class="nav-link" routerLink="/home" routerLinkActive="active"
+            >Home</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" routerLink="/shopping" routerLinkActive="active">Shopping</a>
+          <a class="nav-link" routerLink="/shopping" routerLinkActive="active"
+            >Shopping</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" routerLink="/about" routerLinkActive="active">About Us</a>
+          <a class="nav-link" routerLink="/about" routerLinkActive="active"
+            >About Us</a
+          >
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" routerLink="/best-seller" routerLinkActive="active">Best Seller</a>
+          <a
+            class="nav-link"
+            routerLink="/best-seller"
+            routerLinkActive="active"
+            >Best Seller</a
+          >
         </li>
       </ul>
 
@@ -56,7 +67,14 @@
         <!-- Cart -->
         <li class="nav-item">
           <a routerLink="/basket" class="nav-link icon-link">
-            <i class="material-icons" matBadge="1" matBadgeColor="warn">shopping_cart</i>
+            <mat-icon
+              class="material-icons"
+              [matBadge]="(count|async).basketItems.length"
+              matBadgeColor="warn"
+              aria-hidden="false"
+              [matBadgeHidden]="false"
+              >shopping_cart</mat-icon
+            >
           </a>
         </li>
 
@@ -78,7 +96,7 @@
           >
             <li>
               <a routerLink="/register" class="dropdown-item">
-                <i class="fa fa-user-plus  me-2"></i>
+                <i class="fa fa-user-plus me-2"></i>
                 Register
               </a>
             </li>
