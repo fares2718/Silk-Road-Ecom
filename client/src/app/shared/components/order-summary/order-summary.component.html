@@ -4,19 +4,19 @@
   <div class="summary-row">
     <span> Subtotal </span>
 
-    <span> {{ totalAmount() | currency }} </span>
+    <span> {{ basketTotal().subTotal| currency }} </span>
   </div>
 
   <div class="summary-row">
     <span> Shipping </span>
 
-    <span> Free </span>
+    <span> {{basketTotal().shipping|currency}} </span>
   </div>
 
   <div class="summary-row">
     <span> Tax </span>
 
-    <span> $25 </span>
+    <span> {{basketTotal().tax|currency}} </span>
   </div>
 
   <hr />
@@ -24,7 +24,7 @@
   <div class="summary-row total-row">
     <span> Total </span>
 
-    <span> {{ totalAmount() + 25 }} </span>
+    <span> {{ basketTotal().Total }} </span>
   </div>
 
   <button class="checkout-btn">Proceed To Checkout</button>

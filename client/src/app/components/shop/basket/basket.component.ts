@@ -3,7 +3,8 @@ import { BasketService } from '../../../services/basket.service';
 import { IBasket } from '../../../shared/models/basket.model';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { OrderSummaryComponent } from "../../../shared/components/order-summary/order-summary.component";
+import { OrderSummaryComponent } from '../../../shared/components/order-summary/order-summary.component';
+import { BasketTotal } from '../../../shared/models/basket-total.model';
 
 @Component({
   selector: 'app-basket',
@@ -28,7 +29,7 @@ export class BasketComponent implements OnInit {
   changeQuantity(amount: 1 | -1, itemId: number) {
     const index = this.basket.basketItems.findIndex((i) => i.itemID === itemId);
     if (index !== -1) {
-      if (!(this.basket.basketItems[index].quantity == 0 && amount == -1)){
+      if (!(this.basket.basketItems[index].quantity == 0 && amount == -1)) {
         this.basket.basketItems[index].quantity += amount;
         this.basketService.addUpdateBasket(this.basket);
       }
@@ -43,9 +44,17 @@ export class BasketComponent implements OnInit {
     this.basketService.addUpdateBasket(this.basket);
   }
 
-  get totalAmount() {
-    return this.basket.basketItems.reduce((accumulator, currentItem) => {
-      return accumulator + currentItem.price * currentItem.quantity;
-    }, 0);
+  get basketTotal() {
+    const basketTotal = new BasketTotal();
+    
+    basketTotal.subTotal = this.basket.basketItems.reduce(
+      (accumulator, currentItem) => {
+        return accumulator + currentItem.price * currentItem.quantity;
+      },
+      0,
+    );
+    basketTotal.shipping = 3;
+    basketTotal.tax = 25
+    return basketTotal;
   }
 }

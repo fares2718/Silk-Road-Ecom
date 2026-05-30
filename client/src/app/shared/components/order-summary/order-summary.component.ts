@@ -1,5 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, input } from '@angular/core';
+import { BasketTotal } from '../../models/basket-total.model';
 
 @Component({
   selector: 'app-order-summary',
@@ -9,7 +10,6 @@ import { Component, input } from '@angular/core';
   styleUrl: './order-summary.component.scss'
 })
 export class OrderSummaryComponent {
-totalAmount = input.required<number>();
-
+basketTotal = input.required<BasketTotal>();
 
 }
