@@ -6,6 +6,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
 import { Utiles } from '../../../helpers/utiles';
 import {NgxImageZoomModule} from 'ngx-image-zoom';
+import { BasketService } from '../../../services/basket.service';
 
 @Component({
   selector: 'app-product-details',
@@ -17,7 +18,10 @@ import {NgxImageZoomModule} from 'ngx-image-zoom';
 export class ProductDetailsComponent implements OnInit{
 private route = inject(ActivatedRoute);
 private productService = inject(ProductService);
+private basketService = inject(BasketService);
 private destroyRef = inject(DestroyRef);
+
+quantity:number=1;
 
 product:Product = {
   productID:0,
@@ -36,6 +40,14 @@ ngOnInit(): void {
     this.getProduct();
 }
 
+addProductToBasket(){
+  this.basketService.addItemToBasket(this.product,this.quantity);
+}
+
+changeQuantity(amount:1|-1){
+  if(!(this.quantity==0 && amount==-1))
+    this.quantity+=amount;
+}
 
 getProduct(){
   this.productService.getProductById(this.product.productID)

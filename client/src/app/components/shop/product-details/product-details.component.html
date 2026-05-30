@@ -102,17 +102,17 @@
             <h5>Quantity</h5>
 
             <div class="quantity-box">
-              <button>-</button>
+              <button (click)="changeQuantity(-1)">-</button>
 
-              <span> 1 </span>
+              <span> {{quantity}} </span>
 
-              <button>+</button>
+              <button (click)="changeQuantity(+1)">+</button>
             </div>
           </div>
 
           <!-- ACTION BUTTONS -->
           <div class="action-buttons">
-            <button class="btn add-cart-btn">
+            <button (click)="addProductToBasket()" class="btn add-cart-btn">
               <i class="fa fa-shopping-cart"></i>
 
               Add To Cart

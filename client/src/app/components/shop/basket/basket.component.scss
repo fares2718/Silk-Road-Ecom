@@ -38,10 +38,10 @@ $text-muted: #9ca3af;
 
   margin-bottom: 1rem;
 
-  transition: .3s ease;
+  transition: 0.3s ease;
 
   &:hover {
-    border-color: rgba(249, 115, 22, .4);
+    border-color: rgba(249, 115, 22, 0.4);
   }
 
   .product-image {
@@ -56,14 +56,14 @@ $text-muted: #9ca3af;
 
     .category {
       color: $orange;
-      font-size: .8rem;
+      font-size: 0.8rem;
       font-weight: 600;
       text-transform: uppercase;
     }
 
     .product-name {
       color: white;
-      margin: .4rem 0;
+      margin: 0.4rem 0;
       font-size: 1.1rem;
       font-weight: 700;
     }
@@ -126,7 +126,7 @@ $text-muted: #9ca3af;
   border: none;
   border-radius: 12px;
 
-  background: rgba(239, 68, 68, .15);
+  background: rgba(239, 68, 68, 0.15);
   color: #ef4444;
 
   &:hover {
@@ -135,61 +135,34 @@ $text-muted: #9ca3af;
   }
 }
 
-// =========================
-// SUMMARY
-// =========================
-
-.summary-card {
-  background: $bg-secondary;
-  border: 1px solid $border-color;
-  border-radius: 24px;
-  padding: 2rem;
-
-  position: sticky;
-  top: 100px;
-
-  h3 {
-    color: white;
-    margin-bottom: 1.5rem;
-    font-weight: 700;
-  }
-
-  hr {
-    border-color: $border-color;
-  }
-}
-
-.summary-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-
-  color: $text-secondary;
-}
-
-.total-row {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: white;
-}
-
-.checkout-btn {
-  width: 100%;
-  height: 52px;
-
+.start-shopping-btn {
+  width: max-content;
+  margin: 0 auto;
+  padding: 12px 48px;
   border: none;
-  border-radius: 14px;
+  border-radius: 50rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 
   background: $orange;
   color: white;
   font-weight: 600;
+  text-decoration: none;
 
-  margin-top: 1rem;
-
-  transition: .3s ease;
+  box-shadow: 0 4px 12px rgba($orange, 0.15);
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     background: $orange-dark;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba($orange, 0.25);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
@@ -198,7 +171,6 @@ $text-muted: #9ca3af;
 // =========================
 
 @media (max-width: 768px) {
-
   .basket-page {
     padding: 3rem 0;
   }
@@ -220,7 +192,7 @@ $text-muted: #9ca3af;
   .quantity-box,
   .item-total,
   .remove-btn {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
   }
 
   .summary-card {
