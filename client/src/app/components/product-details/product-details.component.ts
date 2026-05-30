@@ -1,12 +1,12 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Product } from '../../../shared/models/product.model';
-import { ProductService } from '../../../services/product.service';
+import { Product } from '../../shared/models/product.model';
+import { ProductService } from '../../services/product.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CurrencyPipe } from '@angular/common';
-import { Utiles } from '../../../helpers/utiles';
+import { Utiles } from '../../helpers/utiles';
 import {NgxImageZoomModule} from 'ngx-image-zoom';
-import { BasketService } from '../../../services/basket.service';
+import { BasketService } from '../../services/basket.service';
 
 @Component({
   selector: 'app-product-details',

@@ -1,10 +1,10 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { BasketService } from '../../../services/basket.service';
-import { IBasket } from '../../../shared/models/basket.model';
+import { BasketService } from '../../services/basket.service';
+import { IBasket } from '../../shared/models/basket.model';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { OrderSummaryComponent } from '../order-summary/order-summary.component';
-import { BasketTotal } from '../../../shared/models/basket-total.model';
+import { OrderSummaryComponent } from '../shop/order-summary/order-summary.component';
+import { BasketTotal } from '../../shared/models/basket-total.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({

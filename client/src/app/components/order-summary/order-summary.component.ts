@@ -1,6 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { BasketTotal } from '../../../shared/models/basket-total.model';
+import { BasketTotal } from '../../shared/models/basket-total.model';
 
 @Component({
   selector: 'app-order-summary',

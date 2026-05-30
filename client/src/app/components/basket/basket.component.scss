@@ -166,6 +166,27 @@ $text-muted: #9ca3af;
   }
 }
 
+.checkout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 14px;
+  background: $orange;
+  color: white;
+  font-weight: 600;
+  margin-top: 1rem;
+  transition: 0.3s ease;
+
+  &:hover {
+    background: $orange-dark;
+  }
+}
+
 // =========================
 // MOBILE
 // =========================
@@ -193,25 +214,5 @@ $text-muted: #9ca3af;
   .item-total,
   .remove-btn {
     margin-top: 0.5rem;
-  }
-
-  .checkout-btn {
-    width: 100%;
-    height: 52px;
-
-    border: none;
-    border-radius: 14px;
-
-    background: $orange;
-    color: white;
-    font-weight: 600;
-
-    margin-top: 1rem;
-
-    transition: 0.3s ease;
-
-    &:hover {
-      background: $orange-dark;
-    }
   }
 }
