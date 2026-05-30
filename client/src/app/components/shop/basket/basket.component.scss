@@ -195,7 +195,23 @@ $text-muted: #9ca3af;
     margin-top: 0.5rem;
   }
 
-  .summary-card {
-    position: static;
+  .checkout-btn {
+    width: 100%;
+    height: 52px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: $orange;
+    color: white;
+    font-weight: 600;
+
+    margin-top: 1rem;
+
+    transition: 0.3s ease;
+
+    &:hover {
+      background: $orange-dark;
+    }
   }
 }
