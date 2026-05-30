@@ -1,0 +1,169 @@
+<section class="checkout-page">
+  <div class="container">
+    <div class="row g-4">
+      <!-- CHECKOUT FORM -->
+      <div class="col-lg-8">
+        <!-- CONTACT -->
+        <div class="checkout-card">
+          <h3 class="section-title">Contact Information</h3>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control custom-input"
+                placeholder="First Name"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control custom-input"
+                placeholder="Last Name"
+              />
+            </div>
+
+            <div class="col-12">
+              <input
+                type="email"
+                class="form-control custom-input"
+                placeholder="Email Address"
+              />
+            </div>
+
+            <div class="col-12">
+              <input
+                type="tel"
+                class="form-control custom-input"
+                placeholder="Phone Number"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- SHIPPING -->
+        <div class="checkout-card">
+          <h3 class="section-title">Shipping Address</h3>
+
+          <div class="row g-3">
+            <div class="col-12">
+              <input
+                type="text"
+                class="form-control custom-input"
+                placeholder="Street Address"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control custom-input"
+                placeholder="City"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control custom-input"
+                placeholder="Postal Code"
+              />
+            </div>
+
+            <div class="col-12">
+              <input
+                type="text"
+                class="form-control custom-input"
+                placeholder="Country"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- PAYMENT -->
+        <div class="checkout-card">
+          <h3 class="section-title">Payment Method</h3>
+
+          <div class="payment-option">
+            <input type="radio" name="payment" checked />
+
+            <label> Credit / Debit Card </label>
+          </div>
+
+          <div class="payment-option">
+            <input type="radio" name="payment" />
+
+            <label> PayPal </label>
+          </div>
+
+          <div class="payment-option">
+            <input type="radio" name="payment" />
+
+            <label> Cash On Delivery </label>
+          </div>
+
+          <div class="row g-3 mt-2">
+            <div class="col-12">
+              <input
+                type="text"
+                class="form-control custom-input"
+                placeholder="Card Number"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control custom-input"
+                placeholder="MM / YY"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control custom-input"
+                placeholder="CVV"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="col-lg-4">
+        <div class="checkout-summary">
+          <h3>Order Summary</h3>
+
+          <div class="summary-item">
+            <span>Subtotal</span>
+            <span>$639</span>
+          </div>
+          <div class="summary-item">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+
+          <div class="summary-item">
+            <span>Tax</span>
+            <span>$25</span>
+          </div>
+
+          <hr />
+
+          <div class="summary-total">
+            <span>Total</span>
+            <span>$664</span>
+          </div>
+
+          <button class="place-order-btn">
+            <i class="fa fa-lock me-2"></i>
+
+            Place Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

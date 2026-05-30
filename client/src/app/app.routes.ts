@@ -4,21 +4,32 @@ import { BasketComponent } from './components/basket/basket.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  
-  { 
-    path: 'shopping', 
-    loadComponent:() => import('./components/shop/shop.component')
-    .then(c => c.ShopComponent),
-  },
-  { 
-    path: 'product-details/:id', 
-    loadComponent:() => import('./components/product-details/product-details.component')
-    .then(c => c.ProductDetailsComponent), 
+
+  {
+    path: 'shopping',
+    loadComponent: () =>
+      import('./components/shop/shop.component').then((c) => c.ShopComponent),
   },
   {
-    path:'basket',
-    loadComponent:() => import('./components/basket/basket.component')
-    .then(c => c.BasketComponent), 
+    path: 'product-details/:id',
+    loadComponent: () =>
+      import('./components/product-details/product-details.component').then(
+        (c) => c.ProductDetailsComponent,
+      ),
+  },
+  {
+    path: 'basket',
+    loadComponent: () =>
+      import('./components/basket/basket.component').then(
+        (c) => c.BasketComponent,
+      ),
+  },
+  {
+    path: 'checkout',
+    loadComponent: () =>
+      import('./components/checkout/checkout.component').then(
+        (c) => c.CheckoutComponent,
+      ),
   },
 
   { path: '', redirectTo: 'home', pathMatch: 'full' },
