@@ -67,7 +67,8 @@
         <!-- Cart -->
         <li class="nav-item">
           <a routerLink="/basket" class="nav-link icon-link">
-            <mat-icon
+            @if(count){
+              <mat-icon
               class="material-icons"
               [matBadge]="(count|async).basketItems.length"
               matBadgeColor="warn"
@@ -75,6 +76,7 @@
               [matBadgeHidden]="false"
               >shopping_cart</mat-icon
             >
+            }
           </a>
         </li>
 
