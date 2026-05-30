@@ -4,10 +4,10 @@ public class CustomerBasket
 {
     public CustomerBasket() { }
 
-    public CustomerBasket(int basketId)
+    public CustomerBasket(string basketId)
     {
-        BasketId = basketId;
+        BasketID = basketId;
     }
-    public int BasketId { get; set; }
+    public string BasketID { get; set; } = string.Empty;
     public List<BasketItem> BasketItems { get; set; } = new List<BasketItem>();
 }
