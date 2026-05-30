@@ -27,7 +27,7 @@ namespace MyApp.Namespace
             return Ok(basket);
         }
 
-        [HttpPost("delete-basket/{Id}")]
+        [HttpDelete("delete-basket/{Id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

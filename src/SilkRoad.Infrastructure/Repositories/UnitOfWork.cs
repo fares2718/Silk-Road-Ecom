@@ -19,7 +19,8 @@ internal class UnitOfWork : IUnitOfWork
 
     public ICustomerBasketRepository CustomerBasketRepository { get; }
 
-    public UnitOfWork(AppDbContext context, IImageManagementService imageManagementService, IMapper mapper, IConnectionMultiplexer redis)
+    public UnitOfWork(AppDbContext context, IImageManagementService imageManagementService,
+         IMapper mapper, IConnectionMultiplexer redis)
     {
         _context = context;
         _imageManagementService = imageManagementService;
