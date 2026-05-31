@@ -58,7 +58,7 @@ internal class AuthRepository : IAuth
         }
         var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, true);
         if (!result.Succeeded)
-            return "Invalid Credentials";
+            return "Please review your credentials, Invalid Credentials";
         var roles = await _userManager.GetRolesAsync(user);
         var accessToken = _generateToken.GenerateAccessToken(user, roles);
         return accessToken;
@@ -110,7 +110,6 @@ internal class AuthRepository : IAuth
             return result.Errors.ToList()[0].Description;
         return "Password has been reseted successfuly";
     }
-
     private async Task SendActivationEmail(string email, string token,
     string component, string subject, string message)
     {
