@@ -31,6 +31,13 @@ export const routes: Routes = [
         (c) => c.CheckoutComponent,
       ),
   },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./components/auth/registration/registration.component').then(
+        (c) => c.RegistrationComponent,
+      ),
+  },
 
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
