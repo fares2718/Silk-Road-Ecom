@@ -40,12 +40,9 @@ public static class InfrastructureRegisteration
             options.UseSqlServer(configuration.GetConnectionString("SilkRoadCon"));
         });
 
-        services.AddIdentityCore<AppUser>(options =>
-        {
-            options.Password.RequireDigit = true;
-        })
-        .AddRoles<IdentityRole>()
-        .AddEntityFrameworkStores<AppDbContext>();
+        services.AddIdentity<AppUser,IdentityRole>()
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddDefaultTokenProviders();
 
         services.AddAuthentication(confOp =>
        {

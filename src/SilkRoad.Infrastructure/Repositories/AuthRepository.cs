@@ -68,9 +68,10 @@ internal class AuthRepository : IAuth
     {
         if (registerDTO is null || string.IsNullOrEmpty(registerDTO.UserName)
             || string.IsNullOrEmpty(registerDTO.FirstName)
-            || string.IsNullOrEmpty(registerDTO.LasName)
+            || string.IsNullOrEmpty(registerDTO.LastName)
             || string.IsNullOrEmpty(registerDTO.Password)
             || string.IsNullOrEmpty(registerDTO.Email)
+            || string.IsNullOrEmpty(registerDTO.DisplayName)
             )
         {
             return null;
@@ -82,9 +83,10 @@ internal class AuthRepository : IAuth
         {
             UserName = registerDTO.UserName,
             Email = registerDTO.Email,
+            DisplayName = registerDTO.DisplayName,
             FirstName = registerDTO.FirstName,
             MiddleName = registerDTO.MiddleName,
-            LastName = registerDTO.LasName,
+            LastName = registerDTO.LastName,
         };
 
         var result = await _userManager.CreateAsync(user, registerDTO.Password);
@@ -93,7 +95,7 @@ internal class AuthRepository : IAuth
         string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
         await SendActivationEmail(user.Email, encodedToken, "active", "Email Activation", "Please activate your email, click on button to active");
-        return "Registered successfuly, Please confirm your email, Check your Inbox";
+        return "done";
     }
 
     public async Task<string?> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
@@ -121,7 +123,7 @@ internal class AuthRepository : IAuth
         await _emailService.SendEmailAsync(emailDTO);
     }
 
-    private async Task<bool> SendForgetPasswordEmail(string email)
+    public async Task<bool> SendForgetPasswordEmail(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user is null)

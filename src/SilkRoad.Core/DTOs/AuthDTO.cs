@@ -8,9 +8,10 @@ public record LoginDTO
 public record RegisterDTO : LoginDTO
 {
     public string UserName { get; set; } = null!;
+    public string DisplayName { get; set; } = null!;
     public string FirstName { get; set; } = null!;
     public string? MiddleName { get; set; }
-    public string LasName { get; set; } = null!;
+    public string LastName { get; set; } = null!;
 
 }
 

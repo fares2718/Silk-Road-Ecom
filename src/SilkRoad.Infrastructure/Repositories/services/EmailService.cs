@@ -16,7 +16,7 @@ internal class EmailService : IEmailService
     public async Task SendEmailAsync(EmailDTO emailDTO)
     {
         MimeMessage message = new MimeMessage();
-        message.From.Add(new MailboxAddress("Silk Road", _config["EmailSetting:From"] ?? ""));
+        message.From.Add(new MailboxAddress("Silk Road", _config["EmailSettings:From"] ?? ""));
         message.Subject = emailDTO.Subject;
         message.To.Add(new MailboxAddress(emailDTO.To, emailDTO.To));
         message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -29,10 +29,10 @@ internal class EmailService : IEmailService
             try
             {
                 await smtp.ConnectAsync(
-                    _config["EmailSetting:Smtp"] ?? "",
-                   int.Parse(_config["EmailSetting:Port"] ?? "1"), true);
-                await smtp.AuthenticateAsync(_config["EmailSetting:Username"] ?? "",
-                    _config["EmailSetting:Password"] ?? "");
+                    _config["EmailSettings:Smtp"] ?? "",
+                   int.Parse(_config["EmailSettings:Port"] ?? "1"), true);
+                await smtp.AuthenticateAsync(_config["EmailSettings:Username"] ?? "",
+                    _config["EmailSettings:Password"] ?? "");
 
                 await smtp.SendAsync(message);
             }

@@ -26,12 +26,12 @@ builder.Services.AddRateLimiter(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("SilkRoadCORS",builder =>
+    options.AddPolicy("SilkRoadCORS", builder =>
     {
-       builder.AllowAnyHeader()
-       .AllowAnyMethod()
-       .AllowCredentials()
-       .WithOrigins("http://localhost:4200"); 
+        builder.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+        .WithOrigins("http://localhost:4200");
     });
 });
 
@@ -57,7 +57,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("SilkRoadCORS");
 
-app.UseStaticFiles(); 
+app.UseStaticFiles();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
@@ -66,6 +66,8 @@ app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseHttpsRedirection();
 
 app.UseRateLimiter();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
