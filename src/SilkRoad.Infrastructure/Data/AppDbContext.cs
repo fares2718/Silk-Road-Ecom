@@ -17,6 +17,10 @@ public partial class AppDbContext:IdentityDbContext<AppUser>
     public virtual DbSet<Product> Products { get; set; }
     public virtual DbSet<ProductImage> ProductImages { get; set; }
     public virtual DbSet<AppUserInfo> AppUserInfos { get; set; }
+    public virtual DbSet<Country> Countries { get; set; }
+    public virtual DbSet<City> Cities { get; set; }
+    public virtual DbSet<State> States { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

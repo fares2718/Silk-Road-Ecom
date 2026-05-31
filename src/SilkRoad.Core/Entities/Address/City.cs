@@ -1,6 +1,6 @@
 ﻿namespace SilkRoad.Core;
 
-public class City
+public partial class City
 {
     public int CityID { get; set; }
     public string CityName { get; set; } = null!;

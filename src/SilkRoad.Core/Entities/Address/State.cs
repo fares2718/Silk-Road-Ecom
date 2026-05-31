@@ -1,6 +1,6 @@
 ﻿namespace SilkRoad.Core;
 
-public class State
+public partial class State
 {
     public int StateID { get; set; }
     public string StateName { get; set; } = null!;
