@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SilkRoad.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_Identity : Migration
+    public partial class Add_Identity_Tabels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,7 @@ namespace SilkRoad.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     MiddleName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -54,20 +54,7 @@ namespace SilkRoad.Infrastructure.Data.Migrations
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    CategoryID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CategoryDescription = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryID);
-                });
-
+            
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
@@ -188,27 +175,7 @@ namespace SilkRoad.Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    ProductID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CategoryID = table.Column<int>(type: "int", nullable: false),
-                    NewPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    OldPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.ProductID);
-                    table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryID",
-                        column: x => x.CategoryID,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryID");
-                });
+           
 
             migrationBuilder.CreateTable(
                 name: "States",
@@ -230,25 +197,7 @@ namespace SilkRoad.Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ProductImages",
-                columns: table => new
-                {
-                    ImageID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductID = table.Column<int>(type: "int", nullable: false),
-                    ImageURL = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductImages", x => x.ImageID);
-                    table.ForeignKey(
-                        name: "FK_ProductImages_Products_ProductID",
-                        column: x => x.ProductID,
-                        principalTable: "Products",
-                        principalColumn: "ProductID",
-                        onDelete: ReferentialAction.Cascade);
-                });
+        
 
             migrationBuilder.CreateTable(
                 name: "Cities",
@@ -355,12 +304,6 @@ namespace SilkRoad.Infrastructure.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_CategoryName",
-                table: "Categories",
-                column: "CategoryName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Cities_StateID",
                 table: "Cities",
                 column: "StateID");
@@ -375,28 +318,6 @@ namespace SilkRoad.Infrastructure.Data.Migrations
                 name: "IX_Countries_CountryName",
                 table: "Countries",
                 column: "CountryName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductImages_ImageURL",
-                table: "ProductImages",
-                column: "ImageURL",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductImages_ProductID",
-                table: "ProductImages",
-                column: "ProductID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryID",
-                table: "Products",
-                column: "CategoryID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_ProductName",
-                table: "Products",
-                column: "ProductName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
