@@ -20,7 +20,7 @@ internal class AuthRepository : IAuth
         _generateToken = generateToken;
     }
 
-    public async Task<bool> CheckActiveAccount(ActiveAccountDTO activeAccountDTO)
+    public async Task<bool> ActivateAccount(ActiveAccountDTO activeAccountDTO)
     {
         if (activeAccountDTO is null)
             return false;

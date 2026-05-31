@@ -103,39 +103,63 @@
 
           <!-- PASSWORD -->
           <div class="col-12">
-            <label class="form-label">Password *</label>
+            <div class="relative w-full max-w-sm">
+              <!-- Input Type Toggles Dynamically -->
+              <input
+                [type]="hidePassword ? 'password' : 'text'"
+                placeholder="Enter password"
+                class="w-full pl-3 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2"
+              />
 
-            <input
-              type="password"
-              class="form-control custom-input"
-              [class.required]="
-                (!registerForm.controls.password.valid &&
-                  registerForm.controls.password.touched) ||
-                (!passwordMatchValidator &&
-                  registerForm.controls.confirmPassword.touched)
-              "
-              formControlName="password"
-              placeholder="Enter Password"
-            />
-            <label class="form-label">Confirm Password</label>
-
-            <input
-              type="password"
-              class="form-control custom-input"
-              [class.required]="
-                (!registerForm.controls.confirmPassword.valid &&
-                  registerForm.controls.confirmPassword.touched) ||
-                (!passwordMatchValidator &&
-                  registerForm.controls.confirmPassword.touched)
-              "
-              formControlName="confirmPassword"
-              placeholder="Confirm Entered Password"
-            />
+              <!-- Toggle Button -->
+              <button
+                type="button"
+                (click)="hidePassword = !hidePassword"
+                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+              >
+                <!-- Render Icon Based on Boolean State -->
+                @if (hidePassword) {
+                  <!-- Eye Icon (Hidden State) -->
+                  <svg
+                    xmlns="http://w3.org"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                } @else {
+                  <!-- Eye Slash Icon (Visible State) -->
+                  <svg
+                    xmlns="http://w3.org"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.025 10.025 0 014.132-5.4M9.69 9.69a3 3 0 004.243 4.243m1.804-1.804L21 21M3 3l3.59 3.59m0 0A9.917 9.917 0 0112 5c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.4M12 7a5 5 0 01-5 5"
+                    />
+                  </svg>
+                }
+              </button>
+            </div>
           </div>
-
-          @if (!passwordMatchValidator) {
-            <p class="text-danger">password doesn't match</p>
-          }
         </div>
 
         <button

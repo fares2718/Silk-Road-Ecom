@@ -6,6 +6,7 @@ import { BehaviorSubject, map } from 'rxjs';
 import { Product } from '../shared/models/product.model';
 import { BasketTotal } from '../shared/models/basket-total.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class BasketService {
   private http = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
-  private baseUrl: string = 'https://localhost:7041/api';
+  private baseUrl: string = `${environment.baseUrl}/Basket`;
 
   private basketSource = new BehaviorSubject<IBasket>(null);
   private basketTotalSource = new BehaviorSubject<BasketTotal>(null);
@@ -24,7 +25,7 @@ export class BasketService {
 
   addUpdateBasket(basket: Basket) {
     return this.http
-      .post(`${this.baseUrl}/Basket/add-update-basket`, basket)
+      .post(`${this.baseUrl}/add-update-basket`, basket)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res: IBasket) => {
@@ -86,7 +87,7 @@ export class BasketService {
 
   deleteBasket(basketID: string) {
     return this.http
-      .delete(`${this.baseUrl}/Basket/delete-basket/${basketID}`)
+      .delete(`${this.baseUrl}/delete-basket/${basketID}`)
       .pipe(
         map(() => {
           this.basketSource.next(null);
@@ -96,7 +97,7 @@ export class BasketService {
 
   getBasketById(basketID: string) {
     return this.http
-      .get<IBasket>(`${this.baseUrl}/Basket/basket/${basketID}`)
+      .get<IBasket>(`${this.baseUrl}/basket/${basketID}`)
       .pipe(
         map((res: IBasket) => {
           this.basketSource.next(res);

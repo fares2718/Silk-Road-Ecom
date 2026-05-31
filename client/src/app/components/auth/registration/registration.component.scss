@@ -56,14 +56,14 @@ $text-muted: #9ca3af;
 .custom-input {
   height: 52px;
 
-  background: $bg-primary;
+  background: $bg-primary !important;
   border: 1px solid $border-color;
 
-  color: white;
+  color: white !important;
   border-radius: 14px;
 
   &:focus {
-    background: $bg-primary;
+    background: $bg-primary !important;
     border-color: $orange;
     color: white;
     box-shadow: none;

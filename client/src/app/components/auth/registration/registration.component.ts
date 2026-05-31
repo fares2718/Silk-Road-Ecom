@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -7,6 +7,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { Register } from '../../../shared/models/auth/auth.models';
+import { AuthService } from '../../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registration',
@@ -45,12 +48,23 @@ export class RegistrationComponent {
           Validators.pattern(/^[\p{L}\s'-]+$/u),
         ],
       }),
-      username: new FormControl('', { validators: [Validators.required,Validators.pattern(/^[a-zA-Z0-9_-]{4,50}/u)]}),
+      username: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9_-]{4,50}/u),
+        ],
+      }),
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
       }),
       password: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(8),Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/u)],
+        validators: [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/u,
+          ),
+        ],
       }),
 
       confirmPassword: new FormControl('', {
@@ -60,7 +74,39 @@ export class RegistrationComponent {
     { validators: [this.passwordMatchValidator] },
   );
 
-  onSubmit() {}
+  private authService = inject(AuthService);
+  private toastrSerice = inject(ToastrService);
+
+  hidePassword = true;
+  hideConfirmPassword = true;
+
+  registerModel: Register;
+
+  onSubmit() {
+    if (this.registerForm.invalid) {
+      return;
+    }
+    this.registerModel = {
+      email: this.registerForm.controls.email.value,
+      password: this.registerForm.controls.password.value,
+      userName: this.registerForm.controls.username.value,
+      displayName: this.registerForm.controls.displayName.value,
+      firstName: this.registerForm.controls.firstName.value,
+      middleName: this.registerForm.controls.middleName.value,
+      lastName: this.registerForm.controls.lastName.value,
+    };
+
+    this.authService.register(this.registerModel).subscribe({
+      next: (result) => {
+        this.toastrSerice.success('Please confirm your email', 'Registered');
+        console.log(result);
+      },
+      error: (err) => {
+        this.toastrSerice.error(err.error.message, 'Error');
+        console.log(err);
+      },
+    });
+  }
 
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('password')?.value;

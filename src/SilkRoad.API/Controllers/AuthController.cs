@@ -11,12 +11,12 @@ public class AuthController : BaseController
     {
     }
 
-    [HttpPost("active-account")]
+    [HttpPost("activate-account")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<ActiveAccountDTO>> ActiveAccount(ActiveAccountDTO activeAccountDTO)
+    public async Task<ActionResult<ActiveAccountDTO>> ActivateAccount(ActiveAccountDTO activeAccountDTO)
     {
-        var result = await _uow.Auth.CheckActiveAccount(activeAccountDTO);
+        var result = await _uow.Auth.ActivateAccount(activeAccountDTO);
         return result ? Ok(new APIResponse(200)) : Unauthorized(new APIResponse(401, "Please activate your account"));
     }
 

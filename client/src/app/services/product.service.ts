@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Page } from '../shared/models/pagination.model';
 import { ProductParams } from '../shared/models/product-params.model';
 import { Product } from '../shared/models/product.model';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +11,10 @@ import { Product } from '../shared/models/product.model';
 export class ProductService {
   private http = inject(HttpClient);
 
-  private baseUrl: string = 'https://localhost:7041/api';
+  private baseUrl: string = `${environment.baseUrl}/Product`;
 
   getProductById(productID:number){
-    return this.http.get<Product>(`${this.baseUrl}/Product/product/${productID}`)
+    return this.http.get<Product>(`${this.baseUrl}/product/${productID}`)
   }
 
 
@@ -28,7 +29,7 @@ export class ProductService {
     params = params.append('isDescending',productParams.isDescending);
     params = params.append('pageNumber',productParams.pageNumber);
     params = params.append('pageSize',productParams.pageSize);
-    return this.http.get<Page>(`${this.baseUrl}/Product/all-products`, {
+    return this.http.get<Page>(`${this.baseUrl}/all-products`, {
       params: params,
     });
   }
