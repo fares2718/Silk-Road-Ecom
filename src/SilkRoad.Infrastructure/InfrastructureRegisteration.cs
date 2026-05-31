@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -29,6 +30,14 @@ public static class InfrastructureRegisteration
         services.AddDbContext<AppDbContext>(options =>{
             options.UseSqlServer(configuration.GetConnectionString("SilkRoadCon"));
         });
+
+        services.AddIdentityCore<AppUser>(options =>
+        {
+           options.Password.RequireDigit = true; 
+        })
+        .AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<AppDbContext>();
+
         return services;
     }
 }

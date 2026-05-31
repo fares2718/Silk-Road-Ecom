@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { OrderSummaryComponent } from "../order-summary/order-summary.component";
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [],
+  imports: [OrderSummaryComponent],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss'
 })

@@ -2,7 +2,11 @@
 
 namespace SilkRoad.Core;
 
-public class AppUser:IdentityUser
+public partial class AppUser : IdentityUser
 {
-     
+    public string Username { get; set; } = null!;
+    public string FirstName { get; set; } = null!;
+    public string? MiddleName { get; set; }
+    public string LastName { get; set; } = null!;
+    public AppUserInfo? AppUserInfo { get; set; }
 }
