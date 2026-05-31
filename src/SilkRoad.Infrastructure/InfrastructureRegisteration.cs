@@ -28,6 +28,7 @@ public static class InfrastructureRegisteration
         });
 
         services.AddScoped<IEmailService,EmailService>();
+        services.AddScoped<IGenerateToken,GenerateToken>();
 
         services.AddDbContext<AppDbContext>(options =>{
             options.UseSqlServer(configuration.GetConnectionString("SilkRoadCon"));
