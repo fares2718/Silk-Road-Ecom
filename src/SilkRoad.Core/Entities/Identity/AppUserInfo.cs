@@ -7,6 +7,6 @@ public partial class AppUserInfo
     public City City { get; set; } = null!;
     public string? Street { get; set; }
     public string ZipCode { get; set; } = null!;
-    public Guid AppUserID { get; set; }
+    public string AppUserID { get; set; } = null!;
     public AppUser AppUser { get; set; } = null!;
 }
