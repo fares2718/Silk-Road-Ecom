@@ -10,3 +10,8 @@ export interface Register extends Login {
     middleName:string;
     lastName:string;
 }
+
+export class ActivateAccount {
+    email:string;
+    token:string;
+}

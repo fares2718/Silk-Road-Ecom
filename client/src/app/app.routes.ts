@@ -38,6 +38,13 @@ export const routes: Routes = [
         (c) => c.RegistrationComponent,
       ),
   },
+   {
+    path: 'activate',
+    loadComponent: () =>
+      import('./components/auth/activate-account/activate-account.component').then(
+        (c) => c.ActivateAccountComponent,
+      ),
+  },
 
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 

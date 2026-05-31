@@ -27,12 +27,13 @@ internal class AuthRepository : IAuth
         var user = await _userManager.FindByEmailAsync(activeAccountDTO.Email);
         if (user is null)
             return false;
-        var result = await _userManager.ConfirmEmailAsync(user, activeAccountDTO.Token);
+        var deacodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(activeAccountDTO.Token));
+        var result = await _userManager.ConfirmEmailAsync(user, deacodedToken);
         if (!result.Succeeded)
         {
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            await SendActivationEmail(user.Email!, encodedToken, "active", "Email Activation", 
+            await SendActivationEmail(user.Email!, encodedToken, "activate", "Email Activation", 
             "Please activate your email, click on button to active");
             return false;
         }
@@ -52,7 +53,7 @@ internal class AuthRepository : IAuth
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
             await SendActivationEmail(user.Email!, encodedToken,
-            "active", "Email Activation",
+            "activate", "Email Activation",
             "Please activate your email, click on button to active");
             return "Please confirm your email, Check your Inbox";
         }
@@ -94,7 +95,7 @@ internal class AuthRepository : IAuth
             return result.Errors.ToList()[0].Description;
         string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-        await SendActivationEmail(user.Email, encodedToken, "active", "Email Activation", "Please activate your email, click on button to active");
+        await SendActivationEmail(user.Email, encodedToken, "activate", "Email Activation", "Please activate your email, click on button to active");
         return "done";
     }
 

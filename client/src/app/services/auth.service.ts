@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Register } from '../shared/models/auth/auth.models';
+import { ActivateAccount, Register } from '../shared/models/auth/auth.models';
 import { environment } from '../../environments/environment.development';
 import { ToastrService } from 'ngx-toastr';
 
@@ -12,7 +12,11 @@ export class AuthService {
 
   private baseUrl: string = `${environment.baseUrl}/Auth`;
 
+  activate(params:ActivateAccount){
+    return this.http.post(`${this.baseUrl}/activate-account`,params);
+  }
+
   register(registerModel:Register){
-    return this.http.post(`${this.baseUrl}/register`,registerModel,{withCredentials:true});
+    return this.http.post(`${this.baseUrl}/register`,registerModel);
   }
 }

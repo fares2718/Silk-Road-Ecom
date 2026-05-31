@@ -46,7 +46,7 @@ public static class EmailStringBody
                 Click the button below to continue.
             </p>
 
-            <a href="https://localhost/account/{component}?email={encodedEmail}&code={encodedToken}"
+            <a href="http://localhost:4200/{component}?email={encodedEmail}&code={encodedToken}"
                style="
                     display:inline-block;
                     background:#2563eb;
