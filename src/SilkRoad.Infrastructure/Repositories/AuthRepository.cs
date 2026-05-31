@@ -20,7 +20,7 @@ internal class AuthRepository : IAuth
         _generateToken = generateToken;
     }
 
-    public async Task<string?> Login(LoginDTO loginDTO)
+    public async Task<string?> LoginAsync(LoginDTO loginDTO)
     {
         if (loginDTO is null || string.IsNullOrEmpty(loginDTO.Password)
             || string.IsNullOrEmpty(loginDTO.Email))
@@ -32,7 +32,7 @@ internal class AuthRepository : IAuth
         {
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            await SendEmail(user.Email!, encodedToken, 
+            await SendActivationEmail(user.Email!, encodedToken, 
             "active", "Email Activation", 
             "Please activate your email, click on button to active");
             return "Please confirm your email, Check your Inbox";
@@ -73,18 +73,43 @@ internal class AuthRepository : IAuth
             return result.Errors.ToList()[0].Description;
         string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-        await SendEmail(user.Email, encodedToken, "active", "Email Activation", "Please activate your email, click on button to active");
+        await SendActivationEmail(user.Email, encodedToken, "active", "Email Activation", "Please activate your email, click on button to active");
         return "Registered successfuly, Please confirm your email, Check your Inbox";
     }
 
-    public async Task SendEmail(string email, string code,
+    public async Task<string?> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
+    {
+        var user =await  _userManager.FindByEmailAsync(resetPasswordDTO.Email);
+        if(user is null)
+            return null;
+        var result = await _userManager.ResetPasswordAsync(user,resetPasswordDTO.Token,
+        resetPasswordDTO.Password);
+
+        if(!result.Succeeded)
+            return result.Errors.ToList()[0].Description;
+        return "Password has been reseted successfuly";
+    }
+
+    private async Task SendActivationEmail(string email, string token,
     string component, string subject, string message)
     {
         EmailDTO emailDTO = new EmailDTO(
             email,
             "faresobaid2715@gmail.com",
             subject,
-            EmailStringBody.SendEmail(email, code, component, message)
+            EmailStringBody.SendEmail(email, token, component, message)
         );
+        await _emailService.SendEmailAsync(emailDTO);
+    }
+
+    private async Task<bool> SendForgetPasswordEmail(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if(user is null)
+            return false;
+        string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        string encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+        await SendActivationEmail(user.Email!,encodedToken,"reset-password","Reset Password","click on button to reset your password");
+        return true;
     }
 }

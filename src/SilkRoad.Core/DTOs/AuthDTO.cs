@@ -13,3 +13,8 @@ public record RegisterDTO : LoginDTO
     public string LasName { get; set; } = null!;
 
 }
+
+public record ResetPasswordDTO : LoginDTO
+{
+    public string Token { get; set; } = null!;
+}
