@@ -18,3 +18,9 @@ public record ResetPasswordDTO : LoginDTO
 {
     public string Token { get; set; } = null!;
 }
+
+public record ActiveAccountDTO
+{
+    public string Email { get; set; } = null!;
+    public string Token { get; set; } = null!;
+}
