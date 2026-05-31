@@ -7,4 +7,5 @@ public interface IUnitOfWork
     public IProductImageRepository ProductImageRepository { get; }
 
     public ICustomerBasketRepository CustomerBasketRepository { get; }
+    public IAuth Auth { get; }
 }

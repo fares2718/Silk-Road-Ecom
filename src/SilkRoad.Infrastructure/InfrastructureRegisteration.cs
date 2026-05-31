@@ -27,6 +27,8 @@ public static class InfrastructureRegisteration
             return ConnectionMultiplexer.Connect(config);
         });
 
+        services.AddScoped<IEmailService,EmailService>();
+
         services.AddDbContext<AppDbContext>(options =>{
             options.UseSqlServer(configuration.GetConnectionString("SilkRoadCon"));
         });
