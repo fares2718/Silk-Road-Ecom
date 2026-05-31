@@ -114,6 +114,10 @@ $text-muted: #9ca3af;
   }
 }
 
+.required{
+    outline: solid 1px red;
+}
+
 @media (max-width: 768px) {
   .register-card {
     padding: 1.5rem;

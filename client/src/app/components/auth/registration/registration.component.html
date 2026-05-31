@@ -11,11 +11,15 @@
         <div class="row g-3">
           <!-- FIRST NAME -->
           <div class="col-md-4">
-            <label class="form-label">First Name</label>
+            <label class="form-label">First Name *</label>
 
             <input
               type="text"
               class="form-control custom-input"
+              [class.required]="
+                !registerForm.controls.firstName.valid &&
+                registerForm.controls.firstName.touched
+              "
               formControlName="firstName"
               placeholder="John"
             />
@@ -35,11 +39,15 @@
 
           <!-- LAST NAME -->
           <div class="col-md-4">
-            <label class="form-label">Last Name</label>
+            <label class="form-label">Last Name *</label>
 
             <input
               type="text"
               class="form-control custom-input"
+              [class.required]="
+                !registerForm.controls.lastName.valid &&
+                registerForm.controls.lastName.touched
+              "
               formControlName="lastName"
               placeholder="Doe"
             />
@@ -47,11 +55,15 @@
 
           <!-- DISPLAY NAME -->
           <div class="col-md-6">
-            <label class="form-label">Display Name</label>
+            <label class="form-label">Display Name *</label>
 
             <input
               type="text"
               class="form-control custom-input"
+              [class.required]="
+                !registerForm.controls.displayName.valid &&
+                registerForm.controls.displayName.touched
+              "
               formControlName="displayName"
               placeholder="John Doe"
             />
@@ -59,11 +71,15 @@
 
           <!-- USERNAME -->
           <div class="col-md-6">
-            <label class="form-label">Username</label>
+            <label class="form-label">Username *</label>
 
             <input
               type="text"
               class="form-control custom-input"
+              [class.required]="
+                !registerForm.controls.username.valid &&
+                registerForm.controls.username.touched
+              "
               formControlName="username"
               placeholder="john_doe"
             />
@@ -71,11 +87,15 @@
 
           <!-- EMAIL -->
           <div class="col-12">
-            <label class="form-label">Email Address</label>
+            <label class="form-label">Email Address *</label>
 
             <input
               type="email"
               class="form-control custom-input"
+              [class.required]="
+                !registerForm.controls.email.valid &&
+                registerForm.controls.email.touched
+              "
               formControlName="email"
               placeholder="john@example.com"
             />
@@ -83,11 +103,17 @@
 
           <!-- PASSWORD -->
           <div class="col-12">
-            <label class="form-label">Password</label>
+            <label class="form-label">Password *</label>
 
             <input
               type="password"
               class="form-control custom-input"
+              [class.required]="
+                (!registerForm.controls.password.valid &&
+                  registerForm.controls.password.touched) ||
+                (!passwordMatchValidator &&
+                  registerForm.controls.confirmPassword.touched)
+              "
               formControlName="password"
               placeholder="Enter Password"
             />
@@ -96,15 +122,19 @@
             <input
               type="password"
               class="form-control custom-input"
+              [class.required]="
+                (!registerForm.controls.confirmPassword.valid &&
+                  registerForm.controls.confirmPassword.touched) ||
+                (!passwordMatchValidator &&
+                  registerForm.controls.confirmPassword.touched)
+              "
               formControlName="confirmPassword"
               placeholder="Confirm Entered Password"
             />
           </div>
 
-          @if(!passwordMatchValidator){
-            <p class="text-danger">
-                password doesn't match
-            </p>
+          @if (!passwordMatchValidator) {
+            <p class="text-danger">password doesn't match</p>
           }
         </div>
 
