@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPassword } from '../../../shared/models/auth/auth.models';
 import { ToastrService } from 'ngx-toastr';
 
@@ -42,8 +42,9 @@ export class ResetPasswordComponent {
   );
 
   private authSrevice = inject(AuthService);
-  private router = inject(ActivatedRoute);
+  private route = inject(ActivatedRoute);
   private toastrService = inject(ToastrService);
+  private router = inject(Router);
 
   resetPasswordModel: ResetPassword;
 
@@ -78,7 +79,7 @@ export class ResetPasswordComponent {
 
       return;
     }
-    this.router.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe((params) => {
       this.resetPasswordModel = {
         email: params['email'],
         token: params['code'],
@@ -89,11 +90,10 @@ export class ResetPasswordComponent {
     this.authSrevice.resetPassword(this.resetPasswordModel).subscribe({
       next: (result) => {
         this.toastrService.success('Password has been reset', 'Success');
-        console.log(result);
+        this.router.navigateByUrl('/login');
       },
       error: (err) => {
         this.toastrService.error(err.error.message, 'Error');
-        console.log(err);
       },
     });
   }
