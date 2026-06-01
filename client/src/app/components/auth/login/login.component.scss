@@ -29,7 +29,7 @@ $text-muted: #9ca3af;
 
   padding: 2.5rem;
 
-  box-shadow: 0 20px 40px rgba(0, 0, 0, .25);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 }
 
 .login-header {
@@ -39,7 +39,7 @@ $text-muted: #9ca3af;
   h1 {
     color: $text-primary;
     font-weight: 800;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   p {
@@ -101,7 +101,7 @@ $text-muted: #9ca3af;
 
   font-weight: 600;
 
-  transition: .3s;
+  transition: 0.3s;
 
   &:hover {
     background: $orange-dark;
@@ -122,7 +122,7 @@ $text-muted: #9ca3af;
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     right: 0;
@@ -162,7 +162,7 @@ $text-muted: #9ca3af;
   a {
     color: $orange;
     text-decoration: none;
-    margin-left: .25rem;
+    margin-left: 0.25rem;
 
     &:hover {
       text-decoration: underline;
@@ -170,8 +170,192 @@ $text-muted: #9ca3af;
   }
 }
 
-@media (max-width: 576px) {
+.required {
+  outline: solid 1px red;
+}
 
+.custom-modal-backdrop {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.75);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+
+  padding: 1rem;
+}
+
+.forgot-password-modal {
+  width: 100%;
+  max-width: 500px;
+
+  background: #1f2937;
+  border: 1px solid #374151;
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  animation: modalFade 0.25s ease;
+}
+
+.modal-header {
+  padding: 1.5rem;
+
+  border-bottom: 1px solid #374151;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  margin: 0;
+  color: white;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+
+  color: #9ca3af;
+
+  font-size: 1rem;
+
+  transition: 0.2s ease;
+
+  &:hover {
+    color: #f97316;
+  }
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.icon-wrapper {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 1rem;
+
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(249, 115, 22, 0.15);
+
+  i {
+    color: #f97316;
+    font-size: 1.75rem;
+  }
+}
+
+.description {
+  text-align: center;
+  color: #9ca3af;
+
+  margin-bottom: 1.5rem;
+
+  line-height: 1.6;
+}
+
+.form-label {
+  color: #d1d5db;
+  margin-bottom: 0.5rem;
+}
+
+.custom-input {
+  height: 52px;
+
+  background: #111827;
+  border: 1px solid #374151;
+
+  color: white;
+
+  border-radius: 14px;
+
+  &:focus {
+    background: #111827;
+    color: white;
+    border-color: #f97316;
+    box-shadow: none;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.modal-footer {
+  padding: 1.5rem;
+
+  border-top: 1px solid #374151;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.cancel-btn {
+  border: 1px solid #374151;
+  color: white;
+
+  &:hover {
+    background: #374151;
+    color: white;
+  }
+}
+
+.send-btn {
+  background: #f97316;
+  border: none;
+  color: white;
+
+  &:hover {
+    background: #ea580c;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 576px) {
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .send-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
   .login-card {
     padding: 1.5rem;
   }

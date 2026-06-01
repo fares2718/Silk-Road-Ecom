@@ -15,3 +15,7 @@ export class ActivateAccount {
     email:string;
     token:string;
 }
+
+export interface ResetPassword extends Login {
+    token:string;
+}

@@ -75,7 +75,7 @@ export class RegistrationComponent {
   );
 
   private authService = inject(AuthService);
-  private toastrSerice = inject(ToastrService);
+  private toastrService = inject(ToastrService);
 
   hidePassword = true;
   hideConfirmPassword = true;
@@ -99,11 +99,11 @@ export class RegistrationComponent {
 
     this.authService.register(this.registerModel).subscribe({
       next: (result) => {
-        this.toastrSerice.success('Please confirm your email', 'Registered');
+        this.toastrService.success('Please confirm your email', 'Registered');
         console.log(result);
       },
       error: (err) => {
-        this.toastrSerice.error(err.error.message, 'Error');
+        this.toastrService.error(err.error.message, 'Error');
         console.log(err);
       },
     });

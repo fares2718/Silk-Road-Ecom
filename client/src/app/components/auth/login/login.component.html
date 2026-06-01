@@ -28,7 +28,7 @@
         <!-- PASSWORD -->
 
         <div class="col-12">
-          <label class="form-label">Password *</label>
+          <label class="form-label">Password</label>
 
           <!-- Container prevents icon from breaking standard Bootstrap layouts -->
           <div class="position-relative">
@@ -95,15 +95,15 @@
         <!-- REMEMBER -->
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <div class="form-check">
+          <!-- <div class="form-check">
             <input class="form-check-input" type="checkbox" id="rememberMe" />
 
             <label class="form-check-label" for="rememberMe">
               Remember Me
             </label>
-          </div>
+          </div> -->
 
-          <a routerLink="/forgot-password" class="forgot-link">
+          <a (click)="isForgetPassword = true" class="forgot-link">
             Forgot Password?
           </a>
         </div>
@@ -139,4 +139,74 @@
       </div>
     </div>
   </div>
+  @if (isForgetPassword) {
+    <div class="custom-modal-backdrop">
+      <div class="forgot-password-modal">
+        <div class="modal-header">
+          <h4 class="modal-title">Reset Password</h4>
+
+          <button
+            type="button"
+            class="close-btn"
+            (click)="isForgetPassword = false"
+          >
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="icon-wrapper">
+            <i class="fa fa-envelope"></i>
+          </div>
+
+          <p class="description">
+            Enter your email address and we'll send you a password reset link.
+          </p>
+
+          <form [formGroup]="forgotPasswordForm">
+            <div>
+              <label class="form-label"> Email Address </label>
+
+              <input
+                type="email"
+                class="form-control custom-input"
+                formControlName="email"
+                placeholder="john@example.com"
+              />
+
+              @if (
+                forgotPasswordForm.controls.email.touched &&
+                forgotPasswordForm.controls.email.errors?.["required"]
+              ) {
+                <small class="text-danger"> Email is required. </small>
+              }
+
+              @if (
+                forgotPasswordForm.controls.email.touched &&
+                forgotPasswordForm.controls.email.errors?.["email"]
+              ) {
+                <small class="text-danger">
+                  Please enter a valid email address.
+                </small>
+              }
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn cancel-btn" (click)="colseForgetPassword()">
+            Cancel
+          </button>
+
+          <button
+            class="btn send-btn"
+            [disabled]="forgotPasswordForm.invalid"
+            (click)="sendResetLink()"
+          >
+            Send Reset Link
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </section>
