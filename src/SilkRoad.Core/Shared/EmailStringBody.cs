@@ -57,7 +57,7 @@ public static class EmailStringBody
                     font-weight:bold;
                     margin-top:20px;
                ">
-                Verify Email
+                {safeMessage}
             </a>
 
         </div>
