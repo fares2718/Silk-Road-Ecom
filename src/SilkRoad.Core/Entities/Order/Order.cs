@@ -4,7 +4,7 @@ public class Order
 {
     public Order()
     {
-        Total = SubTotal + DeliveryPrice;
+        Total = SubTotal + DeliverySnapshot.DeliveryPrice;
     }
 
     public Guid OrderId { get; set; }
@@ -12,16 +12,10 @@ public class Order
     public string CustomerId { get; set; } = null!;
 
     // Shipping snapshot
-    public string ShippingFullName { get; set; } = null!;
-    public string ShippingStreet { get; set; } = null!;
-    public string ShippingCity { get; set; } = null!;
-    public string ShippingPostalCode { get; set; } = null!;
-    public string ShippingCountry { get; set; } = null!;
+    public ShippingAddressSnapshot ShippingAddressSnapshot { get; set; } = null!;
 
     // Delivery snapshot
-    public string DeliveryProviderName { get; set; } = null!;
-    public string DeliveryMethodName { get; set; } = null!;
-    public decimal DeliveryPrice { get; set; }
+    public DeliverySnapshot DeliverySnapshot { get; set; } = null!;
 
     public decimal SubTotal { get; set; }
 
