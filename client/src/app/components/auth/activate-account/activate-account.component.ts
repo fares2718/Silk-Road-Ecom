@@ -30,7 +30,7 @@ export class ActivateAccountComponent implements AfterViewInit {
         console.log(result);
       },
       error: (err) => {
-        //this.toastrService.error(err.error.message, 'Error');
+        this.toastrService.error(err.error.message, 'Error');
         console.log(err);
       },
     });

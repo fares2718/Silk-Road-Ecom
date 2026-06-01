@@ -38,11 +38,18 @@ export const routes: Routes = [
         (c) => c.RegistrationComponent,
       ),
   },
-   {
+  {
     path: 'activate',
     loadComponent: () =>
       import('./components/auth/activate-account/activate-account.component').then(
         (c) => c.ActivateAccountComponent,
+      ),
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./components/auth/login/login.component').then(
+        (c) => c.LoginComponent,
       ),
   },
 

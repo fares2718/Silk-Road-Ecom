@@ -84,6 +84,7 @@ export class RegistrationComponent {
 
   onSubmit() {
     if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
       return;
     }
     this.registerModel = {
