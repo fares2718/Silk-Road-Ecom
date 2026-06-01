@@ -61,12 +61,10 @@ export class LoginComponent {
     this.authService.login(this.login).subscribe({
       next: (result) => {
         this.toastrService.success('you are loged in successfuly', 'Success');
-        //this.router.navigate(['/home']);
-        console.log(result);
+        this.router.navigateByUrl('/home');
       },
       error: (err) => {
         this.toastrService.error(err.error.message, 'Error');
-        console.log(err);
       },
     });
   }

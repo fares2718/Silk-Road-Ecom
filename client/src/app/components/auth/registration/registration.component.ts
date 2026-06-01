@@ -10,6 +10,7 @@ import {
 import { Register } from '../../../shared/models/auth/auth.models';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -76,6 +77,7 @@ export class RegistrationComponent {
 
   private authService = inject(AuthService);
   private toastrService = inject(ToastrService);
+  private router = inject(Router);
 
   hidePassword = true;
   hideConfirmPassword = true;
@@ -100,11 +102,10 @@ export class RegistrationComponent {
     this.authService.register(this.registerModel).subscribe({
       next: (result) => {
         this.toastrService.success('Please confirm your email', 'Registered');
-        console.log(result);
+        this.router.navigateByUrl('/login');
       },
       error: (err) => {
         this.toastrService.error(err.error.message, 'Error');
-        console.log(err);
       },
     });
   }
