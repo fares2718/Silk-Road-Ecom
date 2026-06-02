@@ -26,6 +26,8 @@ internal class UnitOfWork : IUnitOfWork
 
     public IAuth Auth { get; }
 
+    public ICompleteAccountRepository CompleteAccountRepository { get; }
+
     public UnitOfWork(AppDbContext context, IImageManagementService imageManagementService,
          IMapper mapper, IConnectionMultiplexer redis,
           UserManager<AppUser> userManager, IEmailService emailService
@@ -43,8 +45,8 @@ internal class UnitOfWork : IUnitOfWork
         ProductRepository = new ProductRepository(_context, _mapper, _imageManagementService);
         ProductImageRepository = new ProductImageRepository(_context);
         CustomerBasketRepository = new CustomerBasketRepository(_redis);
-        Auth = new AuthRepository(_userManager, _signInManager, _emailService,_generateToken);
-
+        Auth = new AuthRepository(_userManager, _signInManager, _emailService, _generateToken);
+        CompleteAccountRepository = new CompleteAccountRepository(_context);
     }
 
 }

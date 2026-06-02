@@ -1,0 +1,57 @@
+<div class="row g-4">
+  <!-- COUNTRY -->
+
+  <div class="col-md-12">
+    <label class="form-label"> Country </label>
+
+    <ng-select
+      [items]="countries"
+      bindLabel="name"
+      bindValue="id"
+      placeholder="Search country..."
+      formControlName="country"
+      class="custom-select"
+      [searchable]="true"
+      [clearable]="false"
+    >
+    </ng-select>
+  </div>
+
+  <!-- STATE -->
+
+  <div class="col-md-6">
+    <label class="form-label"> State / Province </label>
+
+    <ng-select
+      [items]="states"
+      bindLabel="name"
+      bindValue="id"
+      placeholder="Search state..."
+      formControlName="state"
+      class="custom-select"
+      [searchable]="true"
+      [clearable]="false"
+      [disabled]="!profileForm.controls.country.value"
+    >
+    </ng-select>
+  </div>
+
+  <!-- CITY -->
+
+  <div class="col-md-6">
+    <label class="form-label"> City </label>
+
+    <ng-select
+      [items]="cities"
+      bindLabel="name"
+      bindValue="id"
+      placeholder="Search city..."
+      formControlName="city"
+      class="custom-select"
+      [searchable]="true"
+      [clearable]="false"
+      [disabled]="!profileForm.controls.state.value"
+    >
+    </ng-select>
+  </div>
+</div>
