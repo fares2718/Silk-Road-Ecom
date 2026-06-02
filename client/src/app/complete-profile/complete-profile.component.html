@@ -1,57 +1,171 @@
-<div class="row g-4">
-  <!-- COUNTRY -->
+<section class="profile-page">
+  <div class="container">
+    <div class="profile-card">
+      <!-- HEADER -->
 
-  <div class="col-md-12">
-    <label class="form-label"> Country </label>
+      <div class="page-header">
+        <h1>Complete Your Profile</h1>
 
-    <ng-select
-      [items]="countries"
-      bindLabel="name"
-      bindValue="id"
-      placeholder="Search country..."
-      formControlName="country"
-      class="custom-select"
-      [searchable]="true"
-      [clearable]="false"
-    >
-    </ng-select>
+        <p>
+          Complete your address information to start shopping and receiving
+          orders.
+        </p>
+      </div>
+
+      <!-- PROGRESS -->
+
+      <div class="wizard-progress mb-5">
+        <div class="step" [class.active]="step >= 1">1</div>
+
+        <div class="line" [class.active]="step >= 2"></div>
+
+        <div class="step" [class.active]="step >= 2">2</div>
+      </div>
+
+      <form [formGroup]="profileForm">
+        <!-- STEP 1 -->
+
+        @if (step === 1) {
+          <div class="row g-4">
+            <!-- COUNTRY -->
+
+            <div class="col-12">
+              <label class="form-label"> Country * </label>
+              <!-- placeholder="Search and select country" -->
+
+              <ng-select
+                [items]="countries"
+                bindLabel="countryName"
+                bindValue="countryID"
+                formControlName="country"
+                class="custom-select"
+                [searchable]="true"
+                [clearable]="true"
+                (change)="onSearchCountries($event.term)"
+              >
+              </ng-select>
+
+              @if (country?.touched && country?.invalid) {
+                <small class="text-danger"> Country is required. </small>
+              }
+            </div>
+
+            <!-- STATE -->
+
+            <div class="col-md-6">
+              <label class="form-label"> State / Province * </label>
+              <!-- placeholder="Search and select state" -->
+
+              <ng-select
+                [items]="states"
+                bindLabel="stateName"
+                bindValue="stateID"
+                formControlName="state"
+                class="custom-select"
+                [searchable]="true"
+                [clearable]="true"
+                (change)="onSearchStates($event.term)"
+              >
+              </ng-select>
+
+              @if (state?.touched && state?.invalid) {
+                <small class="text-danger"> State is required. </small>
+              }
+            </div>
+
+            <!-- CITY -->
+
+            <div class="col-md-6">
+              <label class="form-label"> City * </label>
+              <!-- placeholder="Search and select city" -->
+
+              <ng-select
+                [items]="cities"
+                bindLabel="cityName"
+                bindValue="cityID"
+                formControlName="city"
+                class="custom-select"
+                [searchable]="true"
+                [clearable]="true"
+                (change)="onSearchCities($event.term)"
+              >
+              </ng-select>
+
+              @if (city?.touched && city?.invalid) {
+                <small class="text-danger"> City is required. </small>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- STEP 2 -->
+
+        @if (step === 2) {
+          <div class="row g-4">
+            <!-- STREET -->
+
+            <div class="col-12">
+              <label class="form-label"> Street Address * </label>
+
+              <input
+                type="text"
+                class="form-control custom-input"
+                formControlName="street"
+                placeholder="123 Main Street"
+              />
+
+              @if (
+                profileForm.controls.street.touched &&
+                profileForm.controls.street.invalid
+              ) {
+                <small class="text-danger"> Street address is required. </small>
+              }
+            </div>
+
+            <!-- ZIP CODE -->
+
+            <div class="col-md-6">
+              <label class="form-label"> ZIP / Postal Code * </label>
+              <input
+                type="text"
+                class="form-control custom-input"
+                formControlName="zipCode"
+                placeholder="12345"
+              />
+
+              @if (
+                profileForm.controls.zipCode.touched &&
+                profileForm.controls.zipCode.invalid
+              ) {
+                <small class="text-danger"> ZIP code is required. </small>
+              }
+            </div>
+          </div>
+        }
+      </form>
+
+      <!-- ACTIONS -->
+
+      <div class="actions">
+        @if (step > 1) {
+          <button type="button" class="btn back-btn" (click)="previousStep()">
+            <i class="fa fa-arrow-left me-2"></i>
+            Back
+          </button>
+        }
+
+        @if (step < 2) {
+          <button type="button" class="btn next-btn" (click)="nextStep()">
+            Next
+            <i class="fa fa-arrow-right ms-2"></i>
+          </button>
+        } @else {
+          <button type="button" class="btn next-btn" (click)="saveProfile()">
+            <i class="fa fa-check me-2"></i>
+            Complete Profile
+          </button>
+        }
+      </div>
+    </div>
   </div>
-
-  <!-- STATE -->
-
-  <div class="col-md-6">
-    <label class="form-label"> State / Province </label>
-
-    <ng-select
-      [items]="states"
-      bindLabel="name"
-      bindValue="id"
-      placeholder="Search state..."
-      formControlName="state"
-      class="custom-select"
-      [searchable]="true"
-      [clearable]="false"
-      [disabled]="!profileForm.controls.country.value"
-    >
-    </ng-select>
-  </div>
-
-  <!-- CITY -->
-
-  <div class="col-md-6">
-    <label class="form-label"> City </label>
-
-    <ng-select
-      [items]="cities"
-      bindLabel="name"
-      bindValue="id"
-      placeholder="Search city..."
-      formControlName="city"
-      class="custom-select"
-      [searchable]="true"
-      [clearable]="false"
-      [disabled]="!profileForm.controls.state.value"
-    >
-    </ng-select>
-  </div>
-</div>
+</section>

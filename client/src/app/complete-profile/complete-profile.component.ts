@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,11 +7,8 @@ import {
 } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
-
-interface LookupItem {
-  id: number;
-  name: string;
-}
+import { CompleteProfileService } from '../services/complete-profile.service';
+import { City, Country, State } from '../shared/models/lookup-item.model';
 
 @Component({
   selector: 'app-complete-profile',
@@ -23,9 +20,9 @@ interface LookupItem {
 export class CompleteProfileComponent implements OnInit {
   step = 1;
 
-  countries: LookupItem[] = [];
-  states: LookupItem[] = [];
-  cities: LookupItem[] = [];
+  countries: Country[] = [];
+  states: State[] = [];
+  cities: City[] = [];
 
   profileForm = new FormGroup({
     country: new FormControl<number | null>(null, Validators.required),
@@ -44,6 +41,8 @@ export class CompleteProfileComponent implements OnInit {
 
     zipCode: new FormControl('', Validators.required),
   });
+
+  private copleteProfileService = inject(CompleteProfileService);
 
   ngOnInit(): void {
     this.loadCountries();
@@ -106,13 +105,65 @@ export class CompleteProfileComponent implements OnInit {
     // TODO: call API
   }
 
-  private loadCountries(): void {}
+  private loadCountries(): void {
+    this.copleteProfileService.getAllCountries().subscribe({
+      next: (countries) => {
+        this.countries = countries;
+      },
+    });
+  }
 
   private loadStates(countryId: number): void {
-    // Replace with API later
+    this.copleteProfileService.getStatesByCountry(countryId).subscribe({
+      next: (states) => {
+        this.states = states;
+      },
+    });
   }
 
   private loadCities(stateId: number): void {
-    // Replace with API later
+    this.copleteProfileService.getCitiesByState(stateId).subscribe({
+      next: (cities) => {
+        this.cities = cities;
+      },
+    });
+  }
+
+  onSearchCountries(searchTerm: string): void {
+    this.copleteProfileService.getAllCountries(searchTerm).subscribe({
+      next: (countries) => {
+        this.countries = countries;
+      },
+    });
+  }
+
+  onSearchStates(searchTerm: string): void {
+    const countryId = this.country?.value;
+
+    if (!countryId) {
+      return;
+    }
+
+    this.copleteProfileService
+      .getStatesByCountry(countryId, searchTerm)
+      .subscribe({
+        next: (states) => {
+          this.states = states;
+        },
+      });
+  }
+
+  onSearchCities(searchTerm: string): void {
+    const stateId = this.state?.value;
+
+    if (!stateId) {
+      return;
+    }
+
+    this.copleteProfileService.getCitiesByState(stateId, searchTerm).subscribe({
+      next: (cities) => {
+        this.cities = cities;
+      },
+    });
   }
 }

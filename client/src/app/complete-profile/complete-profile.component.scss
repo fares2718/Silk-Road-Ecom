@@ -1,41 +1,213 @@
+$bg-primary: #111827;
+$card-bg: #1f2937;
+$border-color: #374151;
+
+$orange: #f97316;
+$orange-dark: #ea580c;
+
+$text-primary: #ffffff;
+$text-secondary: #d1d5db;
+$text-muted: #9ca3af;
+
+.profile-page {
+  min-height: 100vh;
+  background: $bg-primary;
+  padding: 4rem 0;
+}
+
+.profile-card {
+  max-width: 900px;
+  margin: 0 auto;
+
+  background: $card-bg;
+
+  border: 1px solid $border-color;
+  border-radius: 24px;
+
+  padding: 2rem;
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    color: $text-primary;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    color: $text-muted;
+    margin: 0;
+  }
+}
+
+.wizard-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 3rem;
+
+  .step {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #374151;
+    color: white;
+
+    font-weight: 700;
+
+    transition: 0.3s ease;
+
+    &.active {
+      background: $orange;
+    }
+  }
+
+  .line {
+    width: 120px;
+    height: 3px;
+
+    background: #374151;
+
+    transition: 0.3s ease;
+
+    &.active {
+      background: $orange;
+    }
+  }
+}
+
+.form-label {
+  color: $text-secondary;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.custom-input {
+  height: 54px;
+
+  background: $bg-primary;
+  border: 1px solid $border-color;
+
+  color: white;
+
+  border-radius: 14px;
+
+  &:focus {
+    background: $bg-primary;
+    border-color: $orange;
+    color: white;
+    box-shadow: none;
+  }
+
+  &::placeholder {
+    color: $text-muted;
+  }
+}
+
+.text-danger {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  margin-top: 2rem;
+}
+
+.back-btn {
+  border: 1px solid $border-color;
+  color: white;
+
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+
+  &:hover {
+    background: #374151;
+    color: white;
+  }
+}
+
+.next-btn {
+  background: $orange;
+  border: none;
+
+  color: white;
+
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+
+  &:hover {
+    background: $orange-dark;
+    color: white;
+  }
+}
+
+/* NG-SELECT */
+
 ::ng-deep .custom-select {
   .ng-select-container {
     min-height: 54px !important;
 
-    background: #111827 !important;
-    border: 1px solid #374151 !important;
+    background: $bg-primary !important;
+    border: 1px solid $border-color !important;
 
     border-radius: 14px !important;
 
     color: white !important;
+
+    box-shadow: none !important;
+  }
+
+  .ng-placeholder {
+    color: $text-muted !important;
   }
 
   .ng-value {
     color: white !important;
   }
 
-  .ng-placeholder {
-    color: #9ca3af !important;
-  }
-
-  .ng-arrow {
-    border-color: #f97316 transparent transparent !important;
+  .ng-input input {
+    color: white !important;
   }
 
   &.ng-select-focused .ng-select-container {
-    border-color: #f97316 !important;
-    box-shadow: none !important;
+    border-color: $orange !important;
+  }
+
+  .ng-arrow {
+    border-color: $orange transparent transparent !important;
   }
 }
 
 ::ng-deep .ng-dropdown-panel {
-  background: #1f2937 !important;
+  background: $card-bg !important;
 
-  border: 1px solid #374151 !important;
+  border: 1px solid $border-color !important;
+  border-radius: 12px;
+
+  overflow: hidden;
 
   .ng-option {
-    background: #1f2937 !important;
+    background: $card-bg !important;
     color: white !important;
+
+    padding: 0.75rem 1rem;
 
     &:hover {
       background: #374151 !important;
@@ -47,7 +219,39 @@
   }
 
   .ng-option-selected {
-    background: #f97316 !important;
+    background: $orange !important;
     color: white !important;
   }
+}
+
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 2rem 0;
+  }
+
+  .profile-card {
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
+
+  .page-header {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+
+  .wizard-progress {
+    .line {
+      width: 60px;
+    }
+  }
+
+  .actions {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
 }

@@ -59,6 +59,13 @@ export const routes: Routes = [
         (c) => c.ResetPasswordComponent,
       ),
   },
+  {
+    path: 'complete-profile',
+    loadComponent: () =>
+      import('./complete-profile/complete-profile.component').then(
+        (c) => c.CompleteProfileComponent,
+      ),
+  },
 
 
 
