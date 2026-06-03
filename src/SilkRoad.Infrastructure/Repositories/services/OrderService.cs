@@ -19,29 +19,78 @@ public class OrderService : IOrderService
         _mapper = mapper;
         _userManager = userManager;
     }
-    public async Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync(string? searchTerm = null)
+    public async Task<IReadOnlyList<DeliveryMethodDTO>> GetDeliveryMethodsAsync(string? searchTerm = null)
     {
         var query = _context.DeliveryMethods.AsNoTracking().AsQueryable();
         if (!string.IsNullOrEmpty(searchTerm))
         {
             query = query.Where(dm => dm.MethodName.Contains(searchTerm) || dm.Provider.ProviderName.Contains(searchTerm));
         }
-        return await query.ToListAsync();
+        return await query
+        .Select(x => new DeliveryMethodDTO
+        {
+            DeliveryMethodId = x.DeliveryMethodId,
+            DeliveryTime = x.DeliveryTime,
+            Price = x.Price,
+            Description = x.Description,
+            MethodName = x.MethodName,
+            ProviderName = x.Provider.ProviderName,
+            Available = x.Available
+        })
+        .ToListAsync();
     }
 
-    public async Task<Order?> GetOrderByIdAsync(Guid orderId, string userId)
+    public async Task<OrderDTO?> GetOrderByIdAsync(Guid orderId, string userId)
     {
-        return await _context.Orders
+        Order? order = await _context.Orders
             .AsNoTracking()
+            .Select(x => new Order
+            {
+                OrderId = x.OrderId,
+                ShippingAddressSnapshot = x.ShippingAddressSnapshot,
+                DeliverySnapshot = x.DeliverySnapshot,
+                SubTotal = x.SubTotal,
+                Total = x.Total,
+                OrderStatus = x.OrderStatus,
+                OrderDate = x.OrderDate
+            })
+            .Include(x => x.OrderItems.Select(x => new OrderItem
+            {
+                ProductName = x.ProductName,
+                Quantity = x.Quantity,
+                UnitPrice = x.UnitPrice,
+                LineTotal = x.LineTotal
+            }))
             .FirstOrDefaultAsync(o => o.OrderId == orderId && o.CustomerId == userId);
+        OrderDTO dto = _mapper.Map<OrderDTO>(order);
+        return dto;
     }
 
-    public async Task<IReadOnlyList<Order>> GetUserOrdersAsync(string userId)
+    public async Task<IReadOnlyList<OrderDTO>> GetUserOrdersAsync(string userId)
     {
-        return await _context.Orders
+        IReadOnlyList<Order> orders = await _context.Orders
             .AsNoTracking()
             .Where(o => o.CustomerId == userId)
+            .Select(x => new Order
+            {
+                OrderId = x.OrderId,
+                ShippingAddressSnapshot = x.ShippingAddressSnapshot,
+                DeliverySnapshot = x.DeliverySnapshot,
+                SubTotal = x.SubTotal,
+                Total = x.Total,
+                OrderStatus = x.OrderStatus,
+                OrderDate = x.OrderDate
+            })
+            .Include(x => x.OrderItems.Select(x => new OrderItem
+            {
+                ProductName = x.ProductName,
+                Quantity = x.Quantity,
+                UnitPrice = x.UnitPrice,
+                LineTotal = x.LineTotal
+            }))
             .ToListAsync();
+        IReadOnlyList<OrderDTO> dtos = _mapper.Map<IReadOnlyList<OrderDTO>>(orders);
+        return dtos;
     }
 
     public async Task PlaceOrderAsync(PlaceOrderDTO placeOrderDTO, string userId)
@@ -82,12 +131,14 @@ public class OrderService : IOrderService
             throw new Exception("Failed to create order.");
         }
         newOrder.SubTotal = basket.BasketItems.Sum(item => item.Price * item.Quantity);
+        newOrder.Total = newOrder.SubTotal + newOrder.DeliverySnapshot.DeliveryPrice;
         newOrder.OrderItems = basket.BasketItems.Select(item => new OrderItem
         {
             ProductId = item.ItemID,
             ProductName = item.ItemName,
             UnitPrice = item.Price,
-            Quantity = item.Quantity
+            Quantity = item.Quantity,
+            LineTotal = item.Price * item.Quantity
         }).ToList();
 
         _context.Orders.Add(newOrder);
