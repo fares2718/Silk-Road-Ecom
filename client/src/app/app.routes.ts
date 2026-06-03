@@ -62,7 +62,7 @@ export const routes: Routes = [
   {
     path: 'complete-profile',
     loadComponent: () =>
-      import('./complete-profile/complete-profile.component').then(
+      import('./components/complete-profile/complete-profile.component').then(
         (c) => c.CompleteProfileComponent,
       ),
   },

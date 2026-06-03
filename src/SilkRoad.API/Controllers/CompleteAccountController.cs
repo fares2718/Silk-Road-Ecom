@@ -12,9 +12,10 @@ public class CompleteAccountController : BaseController
     }
 
     [HttpPost("complete-account")]
-    public async Task<IActionResult> CompleteAccountCreation(AppUserInfo account)
+    public async Task<IActionResult> CompleteAccountCreation(CompleteAccountDTO account)
     {
-        await _uow.CompleteAccountRepository.CompleteAccountCreationAsync(account);
+        var appUserInfo = _mapper.Map<AppUserInfo>(account);
+        await _uow.CompleteAccountRepository.CompleteAccountCreationAsync(appUserInfo);
         return Ok();
     }
 
@@ -22,20 +23,23 @@ public class CompleteAccountController : BaseController
     public async Task<IActionResult> GetAllCountries(string? searchTerm = null)
     {
         var countries = await _uow.CompleteAccountRepository.GetAllCountriesAsync(searchTerm);
-        return Ok(countries);
+        var countryDTOs = _mapper.Map<List<CountryDTO>>(countries);
+        return Ok(countryDTOs);
     }
 
     [HttpGet("states-by-country/{countryId}")]
     public async Task<IActionResult> GetStatesByCountryId(int countryId, string? search)
     {
         var states = await _uow.CompleteAccountRepository.GetStatesByCountryIdAsync(countryId, search);
-        return Ok(states);
+        var stateDTOs = _mapper.Map<List<StateDTO>>(states);
+        return Ok(stateDTOs);
     }
 
     [HttpGet("cities-by-state/{stateId}")]
     public async Task<IActionResult> GetCitiesByStateId(int stateId, string? search)
     {
         var cities = await _uow.CompleteAccountRepository.GetCitiesByStateIdAsync(stateId, search);
-        return Ok(cities);
+        var cityDTOs = _mapper.Map<List<CityDTO>>(cities);
+        return Ok(cityDTOs);
     }
 }

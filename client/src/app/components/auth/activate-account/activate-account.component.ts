@@ -28,7 +28,7 @@ export class ActivateAccountComponent implements AfterViewInit {
     this.authService.activate(this.activateParams).subscribe({
       next: (result) => {
         this.toastrService.success('Your account has been activated successfuly', 'Activated');
-        this.router.navigate(['/login']);
+        this.router.navigateByUrl('complete-profile');
         console.log(result);
       },
       error: (err) => {

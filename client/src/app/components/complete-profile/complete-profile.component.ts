@@ -7,8 +7,9 @@ import {
 } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CompleteProfileService } from '../services/complete-profile.service';
-import { City, Country, State } from '../shared/models/lookup-item.model';
+import { CompleteProfileService } from '../../services/complete-profile.service';
+import { City, Country, State } from '../../shared/models/address.models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-complete-profile',
@@ -43,6 +44,7 @@ export class CompleteProfileComponent implements OnInit {
   });
 
   private copleteProfileService = inject(CompleteProfileService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.loadCountries();
