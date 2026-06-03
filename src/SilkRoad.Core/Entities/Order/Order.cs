@@ -2,11 +2,6 @@
 
 public class Order
 {
-    public Order()
-    {
-        Total = SubTotal + DeliverySnapshot.DeliveryPrice;
-    }
-
     public Guid OrderId { get; set; }
 
     public string CustomerId { get; set; } = null!;
@@ -19,7 +14,9 @@ public class Order
 
     public decimal SubTotal { get; set; }
 
-    public decimal Total { get; private set; }
+    public decimal Total => SubTotal + SubTotal + (DeliverySnapshot?.DeliveryPrice ?? 0);
+
+    public enStatus OrderStatus { get; set; } = enStatus.Pending;
 
     public DateTime OrderDate { get; set; }
 

@@ -60,6 +60,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(x => x.OrderDate)
             .HasDefaultValueSql("SYSUTCDATETIME()");
 
+        builder.Property(x => x.OrderStatus)
+            .HasConversion(o => o.ToString(),
+                o => (enStatus)Enum.Parse(typeof(enStatus), o));
 
         builder.HasOne(x => x.Customer)
             .WithMany()

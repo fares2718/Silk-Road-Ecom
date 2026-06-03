@@ -20,6 +20,11 @@ public partial class AppDbContext:IdentityDbContext<AppUser>
     public virtual DbSet<Country> Countries { get; set; }
     public virtual DbSet<City> Cities { get; set; }
     public virtual DbSet<State> States { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<OrderItem> OrderItems { get; set; }
+    public virtual DbSet<DeliveryMethod> DeliveryMethods { get; set; }
+    public virtual DbSet<ShippingAddress> ShippingAddresses { get; set; }
+    public virtual DbSet<DeliveryProvider> DeliverieProviders { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
