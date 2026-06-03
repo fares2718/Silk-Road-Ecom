@@ -73,7 +73,6 @@ public class OrderService : IOrderService
                         DeliveryMethodName = dm.MethodName ?? "",
                         DeliveryPrice = dm.Price
                     },
-                    SubTotal = basket.BasketItems.Sum(item => item.Price * item.Quantity),
                 }
             );
 
@@ -82,6 +81,7 @@ public class OrderService : IOrderService
         {
             throw new Exception("Failed to create order.");
         }
+        newOrder.SubTotal = basket.BasketItems.Sum(item => item.Price * item.Quantity);
         newOrder.OrderItems = basket.BasketItems.Select(item => new OrderItem
         {
             ProductId = item.ItemID,
@@ -92,7 +92,7 @@ public class OrderService : IOrderService
 
         _context.Orders.Add(newOrder);
         await _context.SaveChangesAsync();
-
+        await _uow.CustomerBasketRepository.DeleteBasketAsync(basket.BasketID);
     }
 }
 

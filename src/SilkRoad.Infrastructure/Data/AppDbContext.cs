@@ -24,7 +24,7 @@ public partial class AppDbContext:IdentityDbContext<AppUser>
     public virtual DbSet<OrderItem> OrderItems { get; set; }
     public virtual DbSet<DeliveryMethod> DeliveryMethods { get; set; }
     public virtual DbSet<ShippingAddress> ShippingAddresses { get; set; }
-    public virtual DbSet<DeliveryProvider> DeliverieProviders { get; set; }
+    public virtual DbSet<DeliveryProvider> DeliveryProviders { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
