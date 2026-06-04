@@ -16,6 +16,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BasketTotal } from '../../shared/models/basket-total.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { PaymentService } from '../../services/payment.service';
 
 @Component({
   selector: 'app-checkout',
@@ -32,12 +33,13 @@ import { Router } from '@angular/router';
 export class CheckoutComponent implements OnInit {
   private orderService = inject(OrderService);
   private basketService = inject(BasketService);
+  private paymentService = inject(PaymentService);
   private destroyRef = inject(DestroyRef);
   private toastrService = inject(ToastrService);
   private router = inject(Router)
   basketTotal: BasketTotal;
   deliveryOptions: DeliveryMethod[] = [];
-  deliveryOptionId:number;
+  deliveryOptionId:number = 0;
 
   ngOnInit(): void {
     this.orderService.getDeliveryMethods().subscribe({
@@ -52,10 +54,18 @@ export class CheckoutComponent implements OnInit {
       });
   }
 
+  createPayment(){
+    this.paymentService.createOrUpdatePayment(this.deliveryOptionId).subscribe({
+      next:(res) => this.toastrService.success('payment intent created','Success'),
+      error:(err) => this.toastrService.error(err.error.message,'Error')
+    });
+  }
+
   onSubmit(){
+    this.createPayment();
     const order:PlaceOrder = {
       deliveryMethodID:this.deliveryOptionId,
-      basketID:localStorage.getItem('basketID')
+      basketID:this.basketService.currentValue.basketID
     }
     this.orderService.placeOrder(order).subscribe({
       next:(res)=>{

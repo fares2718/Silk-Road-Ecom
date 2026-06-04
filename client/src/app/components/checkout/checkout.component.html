@@ -46,7 +46,7 @@
             </ng-select>
           </div>
           <!-- [disabled]="checkoutForm.invalid" -->
-          <button class="btn continue-btn" (click)="onSubmit()">
+          <button class="btn continue-btn" [disabled]="deliveryOptionId==0" (click)="onSubmit()">
             Continue
           </button>
         </div>

@@ -17,7 +17,7 @@ export class BasketService {
 
   private baseUrl: string = `${environment.baseUrl}/Basket`;
 
-  private basketSource = new BehaviorSubject<IBasket>(null);
+  basketSource = new BehaviorSubject<IBasket>(null);
   private basketTotalSource = new BehaviorSubject<BasketTotal>(null);
   basket$ = this.basketSource.asObservable();
   basketTotal$ = this.basketTotalSource.asObservable();
