@@ -1,0 +1,12 @@
+<section class="order-item">
+  <div class="order-item__name">
+    {{ orderItem().productName }}
+  </div>
+
+  <div class="order-item__meta">
+    <span class="order-item__quantity">Qty: {{ orderItem().quantity }}</span>
+    <span class="order-item__unit-price">Unit: {{ orderItem().unitPrice | currency}}</span>
+    <span class="order-item__line-total">Total: {{ orderItem().lineTotal | currency }}</span>
+  </div>
+</section>
+

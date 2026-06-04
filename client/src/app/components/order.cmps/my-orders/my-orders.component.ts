@@ -1,20 +1,21 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { OrderSummaryComponent } from '../../shared/components/order-summary/order-summary.component';
-import { OrderService } from '../../services/order.service';
-import { Order } from '../../shared/models/order.models';
-import { BasketTotal } from '../../shared/models/basket-total.model';
+import { OrderSummaryComponent } from '../../../shared/components/order-summary/order-summary.component';
+import { OrderService } from '../../../services/order.service';
+import { Order } from '../../../shared/models/order.models';
+import { BasketTotal } from '../../../shared/models/basket-total.model';
+import { OrderComponent } from '../order/order.component';
 
 @Component({
   selector: 'app-my-orders',
   standalone: true,
-  imports: [OrderSummaryComponent],
+  imports: [OrderComponent],
   templateUrl: './my-orders.component.html',
   styleUrl: './my-orders.component.scss'
 })
 export class MyOrdersComponent implements OnInit {
   private orderService = inject(OrderService);
 
-  userOrders:Order;
+  userOrders:Order[];
   basketTotal:BasketTotal
   ngOnInit(): void {
     this.orderService.getUserOrders().subscribe({

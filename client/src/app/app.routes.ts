@@ -66,6 +66,13 @@ export const routes: Routes = [
         (c) => c.CompleteProfileComponent,
       ),
   },
+  {
+    path: 'my-orders',
+    loadComponent: () =>
+      import('./components/order.cmps/my-orders/my-orders.component').then(
+        (c) => c.MyOrdersComponent,
+      ),
+  },
 
 
 

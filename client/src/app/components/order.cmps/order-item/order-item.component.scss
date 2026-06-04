@@ -1,0 +1,37 @@
+.order-item {
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 18px;
+  padding: 1rem 1.25rem;
+  color: #d1d5db;
+}
+
+.order-item__name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f9fafb;
+  margin-bottom: 0.65rem;
+}
+
+.order-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+
+.order-item__quantity,
+.order-item__unit-price,
+.order-item__line-total {
+  min-width: 120px;
+}
+
+.order-item__unit-price,
+.order-item__line-total {
+  color: #f9fafb;
+}
+
+.order-item__line-total {
+  font-weight: 700;
+}

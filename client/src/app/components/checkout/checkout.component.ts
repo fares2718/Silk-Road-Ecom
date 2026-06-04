@@ -60,6 +60,7 @@ export class CheckoutComponent implements OnInit {
     this.orderService.placeOrder(order).subscribe({
       next:(res)=>{
         this.toastrService.success('Done','Done')
+        localStorage.setItem('basketID',null)
         this.router.navigateByUrl('/shopping')
       },
       error:(err) => {

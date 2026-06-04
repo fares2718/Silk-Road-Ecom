@@ -12,11 +12,12 @@ export class OrderService {
   private baseUrl = `${environment.baseUrl}/Order`;
 
   getDeliveryMethods(searchTerm: string = ''){
-    return this.http.get<DeliveryMethod[]>(`${this.baseUrl}/delivery-methodes?searchTerm=${searchTerm}`);
+    return this.http
+    .get<DeliveryMethod[]>(`${this.baseUrl}/delivery-methodes?searchTerm=${searchTerm}`,{withCredentials:true});
   }
 
   getUserOrders(){
-    return this.http.get<Order>(`${this.baseUrl}/user-orders`)
+    return this.http.get<Order[]>(`${this.baseUrl}/user-orders`,{withCredentials:true})
   }
 
   placeOrder(order:PlaceOrder){

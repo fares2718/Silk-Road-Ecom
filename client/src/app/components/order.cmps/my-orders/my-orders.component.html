@@ -8,7 +8,9 @@
 
     <div class="orders-list">
 
-      <app-order-summary [basketTotal]=""/>
+      @for(order of userOrders;track order.orderId){
+        <app-order [order]="order"/>
+      }
 
     </div>
 

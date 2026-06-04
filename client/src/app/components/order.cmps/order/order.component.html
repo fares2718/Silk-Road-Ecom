@@ -1,0 +1,47 @@
+<section class="order-summary-card">
+  <header class="order-summary-card__header">
+    <div>
+      <h2>Order #{{ order().orderId }}</h2>
+      <p class="order-status">Status: {{ order().orderStatus }}</p>
+    </div>
+    <div class="order-meta">
+      <span>Placed: {{ order().orderDate | date: 'medium' }}</span>
+    </div>
+  </header>
+
+  <section class="order-summary-card__block">
+    <div class="block-heading">Shipping address</div>
+    <div>{{ order().shippingAddressSnapshot.shippingFullName }}</div>
+    <div>{{ order().shippingAddressSnapshot.shippingStreet }}</div>
+    <div>
+      {{ order().shippingAddressSnapshot.shippingCity }},
+      {{ order().shippingAddressSnapshot.shippingPostalCode }}
+    </div>
+    <div>{{ order().shippingAddressSnapshot.shippingCountry }}</div>
+  </section>
+
+  <section class="order-summary-card__block">
+    <div class="block-heading">Delivery</div>
+    <div>{{ order().deliverySnapshot.deliveryProviderName }}</div>
+    <div>{{ order().deliverySnapshot.deliveryMethodName }}</div>
+    <div>Price: {{ order().deliverySnapshot.deliveryPrice | currency }}</div>
+  </section>
+
+  <section class="order-items-list">
+    <h3>Items</h3>
+    <div class="order-items-list__items">
+      <app-order-item *ngFor="let item of order().orderItems" [orderItem]="item"></app-order-item>
+    </div>
+  </section>
+
+  <footer class="order-summary-card__footer">
+    <div>
+      <span>Subtotal</span>
+      <strong>{{ order().subTotal | currency }}</strong>
+    </div>
+    <div>
+      <span>Total</span>
+      <strong>{{ order().total | currency }}</strong>
+    </div>
+  </footer>
+</section>
