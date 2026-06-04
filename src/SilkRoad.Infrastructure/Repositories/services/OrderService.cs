@@ -69,26 +69,29 @@ public class OrderService : IOrderService
     public async Task<IReadOnlyList<OrderDTO>> GetUserOrdersAsync(string userId)
     {
         IReadOnlyList<Order> orders = await _context.Orders
-            .AsNoTracking()
-            .Where(o => o.CustomerId == userId)
-            .Select(x => new Order
-            {
-                OrderId = x.OrderId,
-                ShippingAddressSnapshot = x.ShippingAddressSnapshot,
-                DeliverySnapshot = x.DeliverySnapshot,
-                SubTotal = x.SubTotal,
-                Total = x.Total,
-                OrderStatus = x.OrderStatus,
-                OrderDate = x.OrderDate
-            })
-            .Include(x => x.OrderItems.Select(x => new OrderItem
-            {
-                ProductName = x.ProductName,
-                Quantity = x.Quantity,
-                UnitPrice = x.UnitPrice,
-                LineTotal = x.LineTotal
-            }))
-            .ToListAsync();
+     .AsNoTracking()
+     .Where(o => o.CustomerId == userId)
+     .OrderBy(x => x.OrderDate)
+     .Select(x => new Order
+     {
+         OrderId = x.OrderId,
+         ShippingAddressSnapshot = x.ShippingAddressSnapshot,
+         DeliverySnapshot = x.DeliverySnapshot,
+         SubTotal = x.SubTotal,
+         Total = x.Total,
+         OrderStatus = x.OrderStatus,
+         OrderDate = x.OrderDate,
+
+         OrderItems = x.OrderItems.Select(oi => new OrderItem
+         {
+             ProductName = oi.ProductName,
+             Quantity = oi.Quantity,
+             UnitPrice = oi.UnitPrice,
+             LineTotal = oi.LineTotal
+         }).ToList()
+     })
+     .ToListAsync();
+
         IReadOnlyList<OrderDTO> dtos = _mapper.Map<IReadOnlyList<OrderDTO>>(orders);
         return dtos;
     }

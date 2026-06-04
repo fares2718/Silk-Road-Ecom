@@ -16,7 +16,7 @@ public record OrderDTO
 
     public decimal Total { get; set; }
 
-    public enStatus OrderStatus { get; set; } = enStatus.Pending;
+    public string OrderStatus { get; set; } = string.Empty;
 
     public DateTime OrderDate { get; set; }
     public IReadOnlyList<OrderItemDTO> OrderItems { get; set; } = new List<OrderItemDTO>();

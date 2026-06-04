@@ -19,6 +19,8 @@ namespace MyApp.Namespace
             _orderService = orderService;
         }
 
+
+        [AllowAnonymous]
         [HttpGet("delivery-methodes")]
         [ProducesResponseType(StatusCodes.Status200OK)]
 
