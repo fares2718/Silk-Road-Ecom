@@ -19,6 +19,7 @@ public class Order
     public enStatus OrderStatus { get; set; } = enStatus.Pending;
 
     public DateTime OrderDate { get; set; }
+    public string PaymentIntentId { get; set; } = string.Empty;
 
     public AppUser Customer { get; set; } = null!;
 

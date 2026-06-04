@@ -11,13 +11,15 @@ public class OrderService : IOrderService
     private readonly UserManager<AppUser> _userManager;
     private readonly AppDbContext _context;
     private readonly IMapper _mapper;
+    private readonly IPaymentService _paymentService;
 
-    public OrderService(IUnitOfWork uow, AppDbContext context, IMapper mapper, UserManager<AppUser> userManager)
+    public OrderService(IUnitOfWork uow, AppDbContext context, IMapper mapper, UserManager<AppUser> userManager, IPaymentService paymentService)
     {
         _uow = uow;
         _context = context;
         _mapper = mapper;
         _userManager = userManager;
+        _paymentService = paymentService;
     }
     public async Task<IReadOnlyList<DeliveryMethodDTO>> GetDeliveryMethodsAsync(string? searchTerm = null)
     {
@@ -128,6 +130,14 @@ public class OrderService : IOrderService
                 }
             );
 
+        var ExisitOrder = await _context.Orders.Where(m => m.PaymentIntentId == basket.PaymentIntentId).FirstOrDefaultAsync();
+
+        if (ExisitOrder is not null)
+        {
+            _context.Orders.Remove(ExisitOrder);
+            await _paymentService.CreateOrUpdatePaymentAsync(basket.PaymentIntentId,placeOrderDTO.DeliveryMethodID);
+        }
+
         var newOrder = await insertOrderQuery.FirstOrDefaultAsync();
         if (newOrder == null)
         {
@@ -135,6 +145,7 @@ public class OrderService : IOrderService
         }
         newOrder.SubTotal = basket.BasketItems.Sum(item => item.Price * item.Quantity);
         newOrder.Total = newOrder.SubTotal + newOrder.DeliverySnapshot.DeliveryPrice;
+        newOrder.PaymentIntentId = basket.PaymentIntentId;
         newOrder.OrderItems = basket.BasketItems.Select(item => new OrderItem
         {
             ProductId = item.ItemID,

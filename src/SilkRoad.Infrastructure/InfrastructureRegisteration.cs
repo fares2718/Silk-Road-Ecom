@@ -35,6 +35,7 @@ public static class InfrastructureRegisteration
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IGenerateToken, GenerateToken>();
         services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IPaymentService, PaymentService>();
 
         services.AddDbContext<AppDbContext>(options =>
         {
