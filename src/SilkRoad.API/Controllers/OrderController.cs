@@ -69,11 +69,10 @@ namespace MyApp.Namespace
             return Ok(orders);
         }
 
-
         [HttpPost("place-order")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> PlaseOrderAsync(PlaceOrderDTO orderDTO)
+        public async Task<IActionResult> PlaseOrderAsync([FromBody]PlaceOrderDTO orderDTO)
         {
             string? userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))

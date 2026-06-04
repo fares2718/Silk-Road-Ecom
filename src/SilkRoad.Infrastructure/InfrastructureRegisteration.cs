@@ -34,14 +34,14 @@ public static class InfrastructureRegisteration
 
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IGenerateToken, GenerateToken>();
-        services.AddScoped<IOrderService,OrderService>();
+        services.AddScoped<IOrderService, OrderService>();
 
         services.AddDbContext<AppDbContext>(options =>
         {
             options.UseSqlServer(configuration.GetConnectionString("SilkRoadCon"));
         });
 
-        services.AddIdentity<AppUser,IdentityRole>()
+        services.AddIdentity<AppUser, IdentityRole>()
         .AddEntityFrameworkStores<AppDbContext>()
         .AddDefaultTokenProviders();
 
@@ -49,17 +49,17 @@ public static class InfrastructureRegisteration
        {
            confOp.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
            confOp.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-           confOp.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+           confOp.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
        })
-       .AddCookie(confOp =>
-       {
-           confOp.Cookie.Name = "token";
-           confOp.Events.OnRedirectToLogin = context =>
-           {
-               context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-               return Task.CompletedTask;
-           };
-       })
+       //    .AddCookie(confOp =>
+       //    {
+       //        confOp.Cookie.Name = "token";
+       //        confOp.Events.OnRedirectToLogin = context =>
+       //        {
+       //            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+       //            return Task.CompletedTask;
+       //        };
+       //    })
        .AddJwtBearer(confOp =>
        {
            confOp.RequireHttpsMetadata = false;
@@ -81,9 +81,19 @@ public static class InfrastructureRegisteration
                OnMessageReceived = context =>
                {
                    var token = context.Request.Cookies["token"];
-                   context.Token = token;
+                   if (!string.IsNullOrEmpty(token))
+                   {
+                       context.Token = token;
+                   }
                    return Task.CompletedTask;
-               }
+               },
+               OnChallenge = context =>
+        {
+            context.HandleResponse(); // Skip the default redirect logic
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            context.Response.ContentType = "application/json";
+            return Task.CompletedTask;
+        }
            };
        });
         return services;

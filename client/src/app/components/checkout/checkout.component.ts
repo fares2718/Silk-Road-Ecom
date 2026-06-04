@@ -15,6 +15,7 @@ import { Basket } from '../../shared/models/basket.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BasketTotal } from '../../shared/models/basket-total.model';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -33,6 +34,7 @@ export class CheckoutComponent implements OnInit {
   private basketService = inject(BasketService);
   private destroyRef = inject(DestroyRef);
   private toastrService = inject(ToastrService);
+  private router = inject(Router)
   basketTotal: BasketTotal;
   deliveryOptions: DeliveryMethod[] = [];
   deliveryOptionId:number;
@@ -58,6 +60,7 @@ export class CheckoutComponent implements OnInit {
     this.orderService.placeOrder(order).subscribe({
       next:(res)=>{
         this.toastrService.success('Done','Done')
+        this.router.navigateByUrl('/shopping')
       },
       error:(err) => {
         this.toastrService.error(err.error.message,'error')
@@ -71,6 +74,8 @@ export class CheckoutComponent implements OnInit {
       return;
     }
     this.deliveryOptionId = selectedItem.deliveryMethodId;
+    this.basketTotal.shipping = selectedItem.price;
+    this.basketTotal.Total+= selectedItem.price;
   }
 }
 

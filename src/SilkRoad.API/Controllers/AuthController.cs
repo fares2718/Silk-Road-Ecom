@@ -42,7 +42,7 @@ public class AuthController : BaseController
             SameSite = SameSiteMode.None,
             IsEssential = true,
             Domain = "localhost",
-            Expires = DateTime.Now.AddDays(1)
+            Expires = DateTime.UtcNow.AddDays(1)
         });
         return Ok(new APIResponse(200));
     }

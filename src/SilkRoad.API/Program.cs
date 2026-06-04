@@ -28,10 +28,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("SilkRoadCORS", builder =>
     {
-        builder.AllowAnyHeader()
+        builder.WithOrigins("http://localhost:4200")
+        .AllowAnyHeader()
         .AllowAnyMethod()
-        .AllowCredentials()
-        .WithOrigins("http://localhost:4200");
+        .AllowCredentials();
     });
 });
 
