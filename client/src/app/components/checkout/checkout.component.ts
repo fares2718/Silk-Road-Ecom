@@ -17,6 +17,7 @@ import { BasketTotal } from '../../shared/models/basket-total.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
+import { environment } from '../../../environments/environment.development';
 declare var Stripe: any;
 @Component({
   selector: 'app-checkout',
@@ -70,7 +71,7 @@ export class CheckoutComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.stripe = Stripe(
-      'pk_test_51NQCA3D80BLjniarWdUpT1b2oGB2AvuK8p5bJgUARq7VI9r711MjBPMwi2cnpz3oxtZGMXBy02uy6TkY5aSXZ8Vg008DNOb9hd',
+      environment.publishableKey,
     );
     const element = this.stripe.elements();
 

@@ -15,11 +15,13 @@ namespace MyApp.Namespace
     {
         private readonly IPaymentService _paymentService;
         private readonly IOrderService _orderService;
+        private readonly IConfiguration _config;
 
-        public PaymentController(IPaymentService paymentService, IOrderService orderService)
+        public PaymentController(IPaymentService paymentService, IOrderService orderService, IConfiguration config)
         {
             _paymentService = paymentService;
             _orderService = orderService;
+            _config = config;
         }
 
         [HttpPost("create-intent")]
@@ -27,10 +29,11 @@ namespace MyApp.Namespace
         {
             return await _paymentService.CreateIntentAsync(basketId, deliveryId);
         }
-        const string endpointSecret = "whsec_28cc3dec50be3eaba23c0d5217e31f075148d84948bb1e7aa84452952a3a9461";
+        
         [HttpPut("webhooks/stripe")]
         public async Task<IActionResult> UpdateStatusWithStripe()
         {
+            string endpointSecret = _config["Stiper:webhookSecret"]!;
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
             try
             {
