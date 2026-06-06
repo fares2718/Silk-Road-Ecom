@@ -6,4 +6,5 @@ public interface IOrderService
     Task<OrderDTO?> GetOrderByIdAsync(Guid orderId, string userId);
     Task<IReadOnlyList<OrderDTO>> GetUserOrdersAsync(string userId);
     Task PlaceOrderAsync(PlaceOrderDTO placeOrderDTO, string userId);
+    Task<enStatus?> UpdateOrderStatus(string paymentIntentId, int statusNum);
 }

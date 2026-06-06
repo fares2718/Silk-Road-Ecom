@@ -4,51 +4,144 @@
       <!-- LEFT SIDE -->
 
       <div class="col-lg-8">
+        <div class="wizard-progress mb-5">
+          <div class="step" [class.active]="step >= 1">1</div>
+
+          <div class="line" [class.active]="step >= 2"></div>
+
+          <div class="step" [class.active]="step >= 2">2</div>
+        </div>
         <div class="checkout-card">
           <h2 class="page-title">Checkout</h2>
+          @if (step === 1) {
+            <p class="page-description">
+              Choose your preferred delivery option.
+            </p>
 
-          <p class="page-description">Choose your preferred delivery option.</p>
+            <div class="mb-4">
+              <label class="form-label"> Delivery Option </label>
 
-          <div class="mb-4">
-            <label class="form-label"> Delivery Option </label>
+              <ng-select
+                class="custom-select"
+                [items]="deliveryOptions"
+                bindValue="deliveryMethodId"
+                placeholder="Delivery method"
+                (change)="onDeliveryChange($event)"
+              >
+                <!-- How the option looks inside the dropdown list -->
+                <ng-template ng-option-tmp let-item="item">
+                  @for (item of deliveryOptions; track item.deliveryMethodId) {
+                    <div class="delivery-option-row">
+                      <span class="provider-method">
+                        <strong>{{ item.providerName }}</strong> -
+                        {{ item.methodName }}
+                      </span>
+                      <span class="delivery-details">
+                        ({{ item.deliveryTime }}) |
+                        <strong>{{ item.price | currency }}</strong>
+                      </span>
+                    </div>
+                  }
+                </ng-template>
 
-            <ng-select
-              class="custom-select"
-              [items]="deliveryOptions"
-              bindValue="deliveryMethodId"
-              placeholder="Delivery method"
-              (change)="onDeliveryChange($event)"
+                <!-- How the chosen option looks when the dropdown is closed -->
+                <ng-template ng-label-tmp let-item="item">
+                  <span>
+                    {{ item.providerName }} ({{ item.methodName }}) -
+                    {{ item.price | currency }}
+                  </span>
+                </ng-template>
+              </ng-select>
+            </div>
+            <!-- [disabled]="checkoutForm.invalid" -->
+            <button
+              class="btn continue-btn"
+              [disabled]="deliveryOptionId == 0"
+              (click)="onContinue()"
             >
-              <!-- How the option looks inside the dropdown list -->
-              <ng-template ng-option-tmp let-item="item">
-                @for (item of deliveryOptions; track item.deliveryMethodId) {
-                  <div class="delivery-option-row">
-                    <span class="provider-method">
-                      <strong>{{ item.providerName }}</strong> -
-                      {{ item.methodName }}
-                    </span>
-                    <span class="delivery-details">
-                      ({{ item.deliveryTime }}) |
-                      <strong>{{ item.price | currency }}</strong>
-                    </span>
-                  </div>
-                }
-              </ng-template>
+              Continue
+            </button>
+          }
 
-              <!-- How the chosen option looks when the dropdown is closed -->
-              <ng-template ng-label-tmp let-item="item">
-                <span>
-                  {{ item.providerName }} ({{ item.methodName }}) - {{
-                    item.price | currency
-                  }}
-                </span>
-              </ng-template>
-            </ng-select>
-          </div>
-          <!-- [disabled]="checkoutForm.invalid" -->
-          <button class="btn continue-btn" [disabled]="deliveryOptionId==0" (click)="onSubmit()">
-            Continue
-          </button>
+          @if (step === 2) {
+            <div class="payment-section">
+              <h4 class="section-title">Payment Information</h4>
+
+              <form [formGroup]="paymentForm">
+                <div class="row g-4">
+                  <!-- NAME ON CARD -->
+                  <div class="col-12">
+                    <label class="form-label">Name on Card</label>
+
+                    <input
+                      type="text"
+                      formControlName="nameOnCard"
+                      class="form-control custom-input"
+                      placeholder="Enter card holder name"
+                    />
+
+                    @if (
+                      paymentForm.controls.nameOnCard.invalid &&
+                      paymentForm.controls.nameOnCard.touched
+                    ) {
+                      <small class="text-danger">
+                        Name on card is required
+                      </small>
+                    }
+                  </div>
+
+                  <!-- CARD NUMBER -->
+                  <div class="col-md-4">
+                    <label class="form-label">Card Number</label>
+
+                    <div #cardNumber class="form-control stripe-input"></div>
+                  </div>
+
+                  <!-- EXPIRY -->
+                  <div class="col-md-4">
+                    <label class="form-label">Expiry</label>
+
+                    <div #cardExpiry class="form-control stripe-input"></div>
+                  </div>
+
+                  <!-- CVC -->
+                  <div class="col-md-4">
+                    <label class="form-label">CVC</label>
+
+                    <div #cardCvc class="form-control stripe-input"></div>
+                  </div>
+
+                  @if (cardErrors) {
+                    <div class="col-12">
+                      <div class="alert alert-danger mb-0">
+                        {{ cardErrors }}
+                      </div>
+                    </div>
+                  }
+                </div>
+              </form>
+
+              <div class="payment-actions">
+                <button class="btn back-btn" (click)="step = 1">Back</button>
+
+                <button
+                  class="btn payment-btn"
+                  [disabled]="cardErrors != null"
+                  (click)="submitOrder()"
+                >
+                  <i class="fa fa-credit-card me-2"></i>
+                  Complete Payment
+                </button>
+              </div>
+
+              @if (loader) {
+                <div class="loading-container">
+                  <i class="fa fa-spinner fa-spin"></i>
+                  <span>Processing payment...</span>
+                </div>
+              }
+            </div>
+          }
         </div>
       </div>
 

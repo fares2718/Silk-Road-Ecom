@@ -18,7 +18,7 @@ public class PaymentService : IPaymentService
         _context = context;
     }
 
-    public async Task<CustomerBasket> CreateOrUpdatePaymentAsync(string basketID, int? delivertMethodId)
+    public async Task<CustomerBasket> CreateIntentAsync(string basketID, int? delivertMethodId)
     {
         CustomerBasket? basket = await _uow.CustomerBasketRepository.GetBasketByIdAsync(basketID);
 

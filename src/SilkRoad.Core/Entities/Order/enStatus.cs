@@ -4,7 +4,7 @@ public enum enStatus
 {
     Pending = 0,
     Processing = 1,
-    Shipped = 2,
-    Delivered = 3,
+    Paid = 2,
+    Faild = 3,
     Cancelled = 4
 }

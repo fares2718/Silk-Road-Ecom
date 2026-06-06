@@ -2,5 +2,5 @@
 
 public interface IPaymentService
 {
-    Task<CustomerBasket> CreateOrUpdatePaymentAsync(string basketID,int? delivertMethodId);
+    Task<CustomerBasket> CreateIntentAsync(string basketID,int? delivertMethodId);
 }

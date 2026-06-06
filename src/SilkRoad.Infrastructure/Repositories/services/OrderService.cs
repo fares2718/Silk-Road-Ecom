@@ -135,7 +135,7 @@ public class OrderService : IOrderService
         if (ExisitOrder is not null)
         {
             _context.Orders.Remove(ExisitOrder);
-            await _paymentService.CreateOrUpdatePaymentAsync(basket.PaymentIntentId,placeOrderDTO.DeliveryMethodID);
+            await _paymentService.CreateIntentAsync(basket.PaymentIntentId, placeOrderDTO.DeliveryMethodID);
         }
 
         var newOrder = await insertOrderQuery.FirstOrDefaultAsync();
@@ -159,6 +159,19 @@ public class OrderService : IOrderService
         await _context.SaveChangesAsync();
         await _uow.CustomerBasketRepository.DeleteBasketAsync(basket.BasketID);
     }
+
+    public async Task<enStatus?> UpdateOrderStatus(string paymentIntentId, int statusNum)
+    {
+        var order = await _context.Orders.FirstOrDefaultAsync(m => m.PaymentIntentId == paymentIntentId);
+        if (order is null)
+        {
+            return null;
+        }
+        order.OrderStatus = (enStatus)statusNum;
+        await _context.SaveChangesAsync();
+        return order.OrderStatus;
+    }
+
 }
 
 
