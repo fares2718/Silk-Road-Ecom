@@ -33,21 +33,24 @@ internal class AuthRepository : IAuth
         {
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            await SendActivationEmail(user.Email!, encodedToken, "activate", "Email Activation", 
+            await SendActivationEmail(user.Email!, encodedToken, "activate", "Email Activation",
             "Please activate your email, click on button to active");
             return false;
         }
         return true;
     }
 
-    public async Task<string?> LoginAsync(LoginDTO loginDTO)
+    public async Task<TokenResponse?> LoginAsync(LoginDTO loginDTO)
     {
         if (loginDTO is null || string.IsNullOrEmpty(loginDTO.Password)
             || string.IsNullOrEmpty(loginDTO.Email))
             return null;
         AppUser? user = await _userManager.FindByEmailAsync(loginDTO.Email);
         if (user is null)
-            return "You aren't registered yet";
+            return new TokenResponse
+            {
+                Error = "You aren't registered yet"
+            };
         if (!user.EmailConfirmed)
         {
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -55,14 +58,84 @@ internal class AuthRepository : IAuth
             await SendActivationEmail(user.Email!, encodedToken,
             "activate", "Email Activation",
             "Please activate your email, click on button to active");
-            return "Please confirm your email, Check your Inbox";
+            return new TokenResponse
+            {
+                Error = "Please confirm your email, Check your Inbox"
+            };
         }
         var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, true);
         if (!result.Succeeded)
-            return "Please review your credentials, Invalid Credentials";
+            return new TokenResponse
+            {
+                Error = "Please review your credentials, Invalid Credentials"
+            };
         var roles = await _userManager.GetRolesAsync(user);
         var accessToken = _generateToken.GenerateAccessToken(user, roles);
-        return accessToken;
+        var rawTokenValue = _generateToken.GenerateRefreshToken();
+        DateTime expiryTime = DateTime.UtcNow.AddDays(3);
+
+        string dbValue = $"{rawTokenValue}|{expiryTime:O}";
+
+        await _userManager.SetAuthenticationTokenAsync(user, "SilkRoad", "RefreshToken", dbValue);
+
+        return new TokenResponse
+        {
+            AccessToken = accessToken,
+            RefreshToken = rawTokenValue
+        };
+    }
+
+    public async Task<bool> LogoutAsync(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user is null)
+            return false;
+
+        var result = await _userManager.RemoveAuthenticationTokenAsync(user, "SilkRoad", "RefreshToken");
+        return result.Succeeded;
+    }
+    public async Task<TokenResponse?> RefreshAsync(string userId, string refreshToken)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user is null)
+            return null;
+        string? dbCombinedValue = await _userManager.GetAuthenticationTokenAsync(user, "SilkRoad", "RefreshToken");
+        if (string.IsNullOrEmpty(dbCombinedValue))
+        {
+            return new TokenResponse { Error = "Token has been revoked or does not exist." };
+        }
+
+        var parts = dbCombinedValue.Split('|');
+        string storedRawToken = parts[0];
+        DateTime expiresAt = DateTime.Parse(parts[1]).ToUniversalTime();
+
+        if (storedRawToken != refreshToken)
+        {
+            return new TokenResponse { Error = "Invalid refresh token." };
+        }
+
+        if (DateTime.UtcNow >= expiresAt)
+        {   
+            // Clean up the expired record immediately
+            await _userManager.RemoveAuthenticationTokenAsync(user, "SilkRoad", "RefreshToken");
+            return new TokenResponse { Error = "Refresh token has expired. Please log in again." };
+        }
+
+        var roles = await _userManager.GetRolesAsync(user);
+        var accessToken = _generateToken.GenerateAccessToken(user, roles);
+        var rawTokenValue = _generateToken.GenerateRefreshToken();
+        DateTime expiryTime = DateTime.UtcNow.AddDays(3);
+
+        string dbValue = $"{rawTokenValue}|{expiryTime:O}";
+
+        await _userManager.SetAuthenticationTokenAsync(user, "SilkRoad", "RefreshToken", dbValue);
+
+        return new TokenResponse
+        {
+            AccessToken = accessToken,
+            RefreshToken = rawTokenValue
+        };
+
     }
 
     public async Task<string?> RegisterAsync(RegisterDTO registerDTO)
@@ -133,4 +206,6 @@ internal class AuthRepository : IAuth
         await SendActivationEmail(user.Email!, encodedToken, "reset-password", "Reset Password", "click on button to reset your password");
         return true;
     }
+
+
 }

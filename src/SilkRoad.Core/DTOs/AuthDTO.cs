@@ -25,3 +25,10 @@ public record ActiveAccountDTO
     public string Email { get; set; } = null!;
     public string Token { get; set; } = null!;
 }
+
+public record TokenResponse
+{
+    public string AccessToken { get; set; } = string.Empty;
+    public string RefreshToken { get; set; } = string.Empty;
+    public string? Error { get; set; }
+}
