@@ -21,6 +21,49 @@ public class AuthController : BaseController
         return result ? Ok(new APIResponse(200)) : Unauthorized(new APIResponse(401, "Please activate your account"));
     }
 
+    [HttpGet("is-authenticated")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> IsAuthenticated()
+    {
+        if (!Request.Cookies.TryGetValue("token", out string? accessToken) || string.IsNullOrEmpty(accessToken))
+        {
+            return Ok(false);
+        }
+
+        try
+        {
+            var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(accessToken);
+
+            var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier
+                                                               || c.Type == "sub");
+
+            if (userIdClaim == null || string.IsNullOrEmpty(userIdClaim.Value))
+            {
+                return Ok(false);
+            }
+
+            if (jwtToken.ValidTo < DateTime.UtcNow)
+            {
+                if (Request.Cookies.TryGetValue("refreshToken", out string? refreshToken) && !string.IsNullOrEmpty(refreshToken))
+                {
+                    bool isTokenValid = await _uow.Auth.IsAuthenticatedAsync(userIdClaim.Value, refreshToken);
+                    if (isTokenValid)
+                    {
+                        return Ok(true);
+                    }
+                }
+                return Ok(false);
+            }
+
+            return Ok(true);
+        }
+        catch
+        {
+            return Ok(false);
+        }
+    }
+
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

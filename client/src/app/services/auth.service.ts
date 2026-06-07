@@ -1,33 +1,83 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ActivateAccount, Login, Register, ResetPassword } from '../shared/models/auth/auth.models';
+import {
+  ActivateAccount,
+  Login,
+  Register,
+  ResetPassword,
+} from '../shared/models/auth/auth.models';
 import { environment } from '../../environments/environment.development';
+import { BehaviorSubject, catchError, of, tap, throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
 
   private baseUrl: string = `${environment.baseUrl}/Auth`;
 
-  activate(params:ActivateAccount){
-    return this.http.post(`${this.baseUrl}/activate-account`,params);
+  private authState$ = new BehaviorSubject<boolean | null>(null);
+  isLoggedIn$ = this.authState$.asObservable();
+
+  checkAuthenticationStatus() {
+    return this.http
+      .get<boolean>(`${this.baseUrl}/is-authenticated`, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap((isValid) => this.authState$.next(isValid)),
+        catchError(() => {
+          this.authState$.next(false);
+          return of(false);
+        }),
+      );
   }
 
-  forgetPassword(email:string){
-    return this.http.post(`${this.baseUrl}/send-forget-password-email?email=${email}`,{});
+  activate(params: ActivateAccount) {
+    return this.http.post(`${this.baseUrl}/activate-account`, params);
   }
 
-  login(login:Login){
-    return this.http.post(`${this.baseUrl}/login`,login,{ withCredentials: true });
+  forgetPassword(email: string) {
+    return this.http.post(
+      `${this.baseUrl}/send-forget-password-email?email=${email}`,
+      {},
+    );
   }
 
-  register(registerModel:Register){
-    return this.http.post(`${this.baseUrl}/register`,registerModel);
+  login(login: Login) {
+    return this.http.post(`${this.baseUrl}/login`, login, {
+      withCredentials: true,
+    });
   }
 
-  resetPassword(resetPassword:ResetPassword){
-    return this.http.post(`${this.baseUrl}/reset-password`,resetPassword);
+  logout() {
+    return this.http
+      .post(`${this.baseUrl}/logout`, {}, { withCredentials: true })
+      .pipe(
+        tap(() => this.clearSession()),
+        catchError((err) => {
+          this.clearSession();
+          return throwError(() => err);
+        }),
+      );
+  }
+
+  clearSession(): void {
+    this.authState$.next(false);
+  }
+
+  refresh() {
+    return this.http
+      .post(`${this.baseUrl}/refresh`, {}, { withCredentials: true })
+      .pipe(tap(() => this.authState$.next(true)));
+  }
+
+  register(registerModel: Register) {
+    return this.http.post(`${this.baseUrl}/register`, registerModel);
+  }
+
+  resetPassword(resetPassword: ResetPassword) {
+    return this.http.post(`${this.baseUrl}/reset-password`, resetPassword);
   }
 }

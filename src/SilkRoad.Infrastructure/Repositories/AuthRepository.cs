@@ -40,6 +40,26 @@ internal class AuthRepository : IAuth
         return true;
     }
 
+    public async Task<bool> IsAuthenticatedAsync(string userId, string refreshToken)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return false;
+        }
+
+        string? dbCombinedValue = await _userManager.GetAuthenticationTokenAsync(user, "SilkRoad", "RefreshToken");
+        if (string.IsNullOrEmpty(dbCombinedValue))
+        {
+            return false;
+        }
+
+        var parts = dbCombinedValue.Split('|');
+        string storedRawToken = parts[0];
+        DateTime expiresAt = DateTime.Parse(parts[1]).ToUniversalTime();
+
+        return storedRawToken == refreshToken && DateTime.UtcNow < expiresAt;
+    }
     public async Task<TokenResponse?> LoginAsync(LoginDTO loginDTO)
     {
         if (loginDTO is null || string.IsNullOrEmpty(loginDTO.Password)
@@ -115,7 +135,7 @@ internal class AuthRepository : IAuth
         }
 
         if (DateTime.UtcNow >= expiresAt)
-        {   
+        {
             // Clean up the expired record immediately
             await _userManager.RemoveAuthenticationTokenAsync(user, "SilkRoad", "RefreshToken");
             return new TokenResponse { Error = "Refresh token has expired. Please log in again." };
